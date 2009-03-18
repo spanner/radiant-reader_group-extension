@@ -7,7 +7,9 @@ class GroupsDataset < Dataset::Base
     create_group "Special"
     create_group "Homed", :home_page_id => page_id(:parent)
     create_group "Elsewhere", :site_id => site_id(:elsewhere) if defined? Site
+
     add_pages_to_group :homed, [:parent, :childless]
+    add_readers_to_group :homed, [:normal] 
     add_readers_to_group :normal, [:normal, :inactive] 
   end
   

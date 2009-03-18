@@ -1,9 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Group do
-  dataset :groups
-  dataset :group_readers
-  dataset :pages
+  dataset :groups, :pages
   
   before do
     @site = Page.current_site = sites(:test) if defined? Site
