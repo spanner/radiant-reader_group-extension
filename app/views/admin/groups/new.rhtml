@@ -1,0 +1,7 @@
+<% if @group.new_record? -%>
+<h1>New group</h1>
+<% else -%>
+<h1>Edit group</h1>
+<% end -%>
+
+<%= render :partial => "form" %>

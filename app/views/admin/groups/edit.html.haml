@@ -1,0 +1,23 @@
+- if @group.new_record?
+  %h1 New Group
+- else
+  %h1 Edit Group
+
+- form_tag do
+  .form-area
+    %p{:class => 'title'}
+      %label{:for => "group_title"} Group title
+      =text_field "group", "title", :class => 'textbox', :maxlength => 255
+    %p
+      %label{:for => "group_description"} Group description
+      =text_area "group", "description", :rows => 6, :class => 'textarea', :style => 'width: 100%'
+    %p
+      %label{:for => "group_home_page_id"} Welcome page
+      = select_tag "group[home_page_id]", options_for_select([['no special welcome page', ''], ['', '']] + Page.tree_for_select, @group.home_page_id), :id => 'group_home_page_id' 
+    = updated_stamp @group
+    = javascript_tag "$('group_title').activate()"
+    %p.buttons
+      = save_model_button(@group)
+      = save_model_and_continue_editing_button(@group)
+      or
+      = link_to 'Cancel', group_index_url

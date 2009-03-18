@@ -1,0 +1,62 @@
+<h1 id="populate_group">Populate <%= @group.title %> group</h1>
+
+<p>This is a quick way to bring a group of people into the system in one go. Enter a comma-separated list of names and email addresses below (one person per line, no quoting) and each of those people will be brought into the system, issued an account with a vaguely adequate username and an entirely random password and sent the usual welcome message.</p>
+
+<% if @users %>
+  <% form_tag({}, {:multipart => true}) do %>
+		<p>Confirm user list:<br />
+		<table id="import">
+			<thead>
+				<tr>
+				<th></th>
+				<th>Title</th>
+				<th>Full name</th>
+				<th>Email</th>
+				<th>Login</th>
+				</tr>
+			<thead>
+			<tbody>	
+			<% 
+				i = 0
+				@users.each do |u| 
+			%>
+				<tr>
+				<td><input type="checkbox" name="import_user[]" value="<%= i %>" checked="checked"></td>
+				<td><%= text_field_tag "user_#{i}[honorific]", u[0], :style => 'width: 160px' %></td>
+				<td><%= text_field_tag "user_#{i}[name]", u[1], :style => 'width: 160px' %></td>
+				<td><%= text_field_tag "user_#{i}[email]", u[2], :style => 'width: 160px' %></td>
+				<td><%= text_field_tag "user_#{i}[login]", u[3], :style => 'width: 160px' %></td>
+				</tr>
+				<% i = i + 1 %>
+			<% end %>
+			</tbody>
+		</table>
+
+		<p class="buttons">
+		  <%= submit_tag 'Create these users and add them to the group', :name => 'confirm' %>
+		</p>
+  <% end %>
+<% end %>
+
+<p>You can tweak the calculated values above and select users, or change the list and try again below:</p>
+
+<% form_tag({}, {:multipart => true}) do %>
+ 	<div class="form-area">
+    <p>
+      <label for="userlist">User List</label> (title, name, email, [login])
+			<%= text_area_tag "userlist", params[:userlist], :class => "textarea", :style => "width: 100%; height: 400px;" %>
+		</p>
+
+		<p>Please check the list formatting carefully. Be sure there are no commas other than where you want them and that the email addresses are correct...</p>
+    
+		<p class="buttons">
+		  <%= submit_tag 'preview import' %> or <%= link_to "Cancel", group_index_url %>
+		</p>
+	</div>
+<% end %>
+
+<script type="text/javascript">
+// <![CDATA[
+  new RuledTable('import');
+// ]]>
+</script>

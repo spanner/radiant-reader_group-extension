@@ -1,0 +1,19 @@
+<div class="row">
+    <p><label for="page_groups[]">Restrict access to</label>
+			<% Group.find(:all).each do |g| %>
+				<input 
+					type="checkbox" 
+					name="page[group_ids][]" 
+					value="<%= g.id %>"
+					<% if @page.has_group?(g) %> 
+						checked="checked"
+					<% elsif @page.has_inherited_group?(g) %> 
+						checked="checked"
+						disabled="disabled"
+					<% end %> 
+				/><%= g.title %>
+			<% end %>
+		</p>
+	</div>
+
+

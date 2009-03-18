@@ -1,0 +1,68 @@
+<% content_for :page_css do %>
+	table#groups td.group {
+		font-family: 'Lucida Grande';
+		font-size: 15px;
+		font-weight: bold;
+		height: 18px;
+	}
+	table#groups td.group a {
+		color: black;
+		text-decoration: none;
+	}
+<% end %>
+
+<h1>User Groups</h1>
+
+<table id="groups" class="index" cellpadding="0" cellspacing="0" border="0">
+  <thead>
+    <tr>
+      <th class="group">Title</th>
+      <th class="home">Welcome page</th>
+      <th class="members">Members</th>
+      <th class="modify">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+<% unless @groups.empty? -%>
+	<% for group in @groups -%>
+    <tr class="node level-1">
+      <td class="group">
+        <%= link_to group.title, :action => 'edit', :id => group %>
+      </span></td>
+      <td class="home">
+        <%= if group.home_page
+              link_to group.home_page.title, :controller => 'page', :action => 'edit', :id => group.home_page
+            else
+              "<span class='warning'>admin</span>"
+            end
+        %>
+      </td>
+      <td class="members">
+        <%=
+          group.users.count
+        %>
+      </td>
+      <td class="actions">
+				<%=  (group.title != 'Administrators' && group.title != 'Authors') ? link_to(image('remove', :alt => 'Remove User'), :action => 'remove', :id => group) : image('remove-disabled', :alt => 'Remove') %>
+				<%=  link_to(image('message', :alt => 'Message to group'), :action => 'message', :id => group) %>
+				<%=  link_to(image('populate', :alt => 'Batch create users'), :action => 'populate', :id => group) %>
+			</td>
+    </tr>
+	<% end -%>
+<% else -%>
+	<tr>
+	  <td colspan="3" class="note">No groups</td>
+	</tr>
+<% end -%>
+  </tbody>
+</table>
+<script type="text/javascript">
+// <![CDATA[
+  new RuledTable('groups');
+// ]]>
+</script>
+
+
+<p><%=
+	link_to(image('new-group', :alt => 'New group'), :action => 'new')
+%></p>

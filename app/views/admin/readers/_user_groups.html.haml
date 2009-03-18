@@ -1,0 +1,12 @@
+%tr
+  %th.label
+    %label{:for=>"user_groups"} Groups
+  %td.field
+    - Group.find(:all).each do |group|
+      %span.checkbox
+        = check_box_tag "user[group_ids][]", group.id, @user.is_in?(group)
+        = group.title
+        %span.explanatory
+          = group.description
+  %td.help
+    Groups give access to restricted pages on the public site.
