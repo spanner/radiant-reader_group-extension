@@ -1,4 +1,9 @@
 class Group < ActiveRecord::Base
+
+  class PermissionDenied < StandardError
+    def initialize(message = "Sorry: you don't have access to that page"); super end
+  end
+
   is_site_scoped      # if multi_site is not installed then reader will spoof this call
   order_by 'name'
 
@@ -25,3 +30,4 @@ class Group < ActiveRecord::Base
   end
 
 end
+

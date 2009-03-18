@@ -11,14 +11,14 @@ module ReaderGroup::Access    # for inclusion into SiteController
       
       def find_page_with_group_check(url)
         page = find_page_without_group_check(url)
-        raise Group::PermissionDeniedError if page && !page.visible_to(current_reader)
+        raise Group::PermissionDenied if page && !page.visible_to?(current_reader)
         page
       end
         
       def show_uncached_page_with_group_check(url)
         show_uncached_page_without_group_check(url)
         
-      rescue Group::PermissionDeniedError
+      rescue Group::PermissionDenied
         flash[:error] = "Sorry: you don't have permission to see that page."
         if current_reader
           render :template => 'site/not_allowed'

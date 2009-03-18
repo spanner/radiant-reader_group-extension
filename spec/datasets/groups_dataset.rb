@@ -10,6 +10,10 @@ class GroupsDataset < Dataset::Base
 
     add_pages_to_group :homed, [:parent, :childless]
     add_readers_to_group :homed, [:normal] 
+
+    add_readers_to_group :special, [:another]
+    add_pages_to_group :special, [:news]
+
     add_readers_to_group :normal, [:normal, :inactive] 
   end
   

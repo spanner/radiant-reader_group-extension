@@ -4,6 +4,7 @@ class GroupReadersDataset < Dataset::Base
 
   def load
     create_reader "Normal"
+    create_reader "Another"
     create_reader "Ungrouped"
     create_reader "Inactive", :activated_at => nil, :activation_code => 'randomstring'
     create_reader "Elsewhere", :site_id => site_id(:elsewhere) if defined? Site
