@@ -4,4 +4,4 @@ This extension introduces the reader group: a set of readers that can be given p
 
 ## Status
 
-Incomplete! I'm just bringing the machinery across into the Reader context one bit at a time. Right now the basic mechanisms are all working and the models are tested but there's no interface on it.
+Getting there. The core is all working and groups can be created and edited but I haven't brought across the more useful code for sending out messages to the whole group, batch-inviting people and generally managing large groups of site users.
