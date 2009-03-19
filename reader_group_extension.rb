@@ -7,19 +7,15 @@ class ReaderGroupExtension < Radiant::Extension
   url "http://spanner.org/radiant/reader_group"
   
   define_routes do |map|
-    map.group_index  'admin/groups', :controller => 'admin/group', :action => 'index'
-    map.group_new  'admin/groups/new', :controller => 'admin/group', :action => 'new'
-    map.group_edit  'admin/groups/edit/:id', :controller => 'admin/group', :action => 'edit'
-    map.group_update  'admin/groups/update/:id', :controller => 'admin/group', :action => 'update'
-    map.group_message  'admin/groups/message/:id', :controller => 'admin/group', :action => 'message'
-    map.group_populate  'admin/groups/populate/:id', :controller => 'admin/group', :action => 'populate'
-    map.group_remove  'admin/groups/remove/:id', :controller => 'admin/group', :action => 'remove'
+    map.namespace :admin, :member => { :remove => :get } do |admin|
+      admin.resources :groups
+    end
   end
   
   def activate
     Reader.send :include, ReaderGroup::Reader
     Page.send :include, ReaderGroup::Page
-    SiteController.send :include, ReaderGroup::Access
+    SiteController.send :include, ReaderGroup::SiteControllerExtensions
 
     UserActionObserver.instance.send :add_observer!, Group 
 

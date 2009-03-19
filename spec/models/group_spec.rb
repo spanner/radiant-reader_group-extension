@@ -26,12 +26,12 @@ describe Group do
     end
   end
 
-  it "should have a home_page association" do
-    Group.reflect_on_association(:home_page).should_not be_nil
+  it "should have a homepage association" do
+    Group.reflect_on_association(:homepage).should_not be_nil
     group = groups(:homed)
-    group.home_page.should be_a(Page)
-    group.home_page = pages(:child)
-    group.home_page.should == pages(:child)
+    group.homepage.should be_a(Page)
+    group.homepage = pages(:child)
+    group.homepage.should == pages(:child)
   end
 
   it "should have a group of readers" do

@@ -16,7 +16,7 @@
 <table id="groups" class="index" cellpadding="0" cellspacing="0" border="0">
   <thead>
     <tr>
-      <th class="group">Title</th>
+      <th class="group">Name</th>
       <th class="home">Welcome page</th>
       <th class="members">Members</th>
       <th class="modify">Actions</th>
@@ -27,11 +27,11 @@
 	<% for group in @groups -%>
     <tr class="node level-1">
       <td class="group">
-        <%= link_to group.title, :action => 'edit', :id => group %>
+        <%= link_to group.name, :action => 'edit', :id => group %>
       </span></td>
       <td class="home">
-        <%= if group.home_page
-              link_to group.home_page.title, :controller => 'page', :action => 'edit', :id => group.home_page
+        <%= if group.homepage
+              link_to group.homepage.title, :controller => 'page', :action => 'edit', :id => group.homepage
             else
               "<span class='warning'>admin</span>"
             end

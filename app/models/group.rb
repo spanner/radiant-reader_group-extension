@@ -9,7 +9,7 @@ class Group < ActiveRecord::Base
 
   belongs_to :created_by, :class_name => 'User'
   belongs_to :updated_by, :class_name => 'User'
-  belongs_to :home_page, :class_name => 'Page'
+  belongs_to :homepage, :class_name => 'Page'
 
   has_and_belongs_to_many :readers
   has_and_belongs_to_many :pages

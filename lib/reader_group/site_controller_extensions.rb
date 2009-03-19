@@ -1,13 +1,14 @@
-module ReaderGroup::Access    # for inclusion into SiteController
+module ReaderGroup::SiteControllerExtensions    # for inclusion into SiteController
   
   def self.included(base)
     base.class_eval {
       session :disabled => false
 
       # to control access but retain cache efficiency we have set Page.cache? = false
-      # to prevent the relatively few private pages from being cached. that way it's 
-      # safe to return a cache hit if we find it and we can put the access control 
-      # into show_uncached_page where it is already necessary to go to the database
+      # for any page that has a group association. This should  prevent the relatively 
+      # few private pages from being cached, and it remains safe to return any cached
+      # page we find, without having to go to the database. We should still be compatible
+      # with the nginx cache, too.
       
       def find_page_with_group_check(url)
         page = find_page_without_group_check(url)

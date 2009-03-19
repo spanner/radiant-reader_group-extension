@@ -3,20 +3,12 @@
   <div class="form-area">
     <p class="title">
       <label for="group_title">Group Title</label>
-      <%= text_field "group", "title", :class => 'textbox', :maxlength => 255 %>
+      <%= text_field "group", "name", :class => 'textbox', :maxlength => 255 %>
     </p>
 
 		<p>
-	    <label for="group_home_page">Login page:</label><br />
-		<select name="group[home_page_id]" id="group_home_page">
-			<option value=""></option>
-	      <%= 
-	        homepage = Page.find_by_parent_id(nil)            
-	        if (homepage)
-	          option_tree(@group, homepage, [@group.home_page])
-	        end
-	      %>
-	     </select>
+	    <label for="group_homepage">Login page:</label><br />
+      
 		</p>
 
     <span class="clear">&nbsp;</span>

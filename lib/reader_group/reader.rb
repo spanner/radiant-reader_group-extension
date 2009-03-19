@@ -4,15 +4,20 @@ module ReaderGroup::Reader
     base.class_eval {
       has_and_belongs_to_many :groups
       include InstanceMethods
+      
+      def homepage_with_group
+        if groups && homegroup = groups.detect{ |g| !g.homepage.nil? }
+          homegroup.homepage.url
+        else
+          homepage_without_group
+        end
+      end
+      alias_method_chain :homepage, :group
     }
   end
 
   module InstanceMethods     
   
-    def home_page
-      lg = groups.detect{ |g| !g.home_page.nil? }
-      lg.home_page.url if lg
-    end
       
     def can_see? (page)
       grouplist = page.inherited_groups
