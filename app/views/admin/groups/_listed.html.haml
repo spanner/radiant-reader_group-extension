@@ -1,0 +1,25 @@
+%tr.node.level-1
+  - render_region :tbody do |tbody|
+    - tbody.name_cell do
+      %td.group
+        %p
+          = link_to group.name, edit_admin_group_url(group)
+          %br
+          = truncate_words(group.description, 40)
+    - tbody.home_cell do
+      %td.home
+        - if group.homepage
+          = link_to group.homepage.title, edit_admin_page_url(group.homepage)
+        - else
+          none
+    - tbody.members_cell do
+      %td.members
+        = group.readers.count
+    - tbody.pages_cell do
+      %td.pages
+        = group.pages.count
+    - tbody.modify_cell do
+      %td.actions
+        = link_to image('remove', :alt => 'Remove group'), remove_admin_group_url(group)
+        = link_to image('message', :alt => 'Message to group'), message_admin_group_url(group)
+        = link_to image('populate', :alt => 'Batch create readers'), populate_admin_group_url(group)

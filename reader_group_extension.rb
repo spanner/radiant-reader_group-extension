@@ -7,7 +7,7 @@ class ReaderGroupExtension < Radiant::Extension
   url "http://spanner.org/radiant/reader_group"
   
   define_routes do |map|
-    map.namespace :admin, :member => { :remove => :get } do |admin|
+    map.namespace :admin, :member => { :remove => :get, :message => :any, :populate => :any } do |admin|
       admin.resources :groups
     end
   end
@@ -17,11 +17,19 @@ class ReaderGroupExtension < Radiant::Extension
     Page.send :include, ReaderGroup::Page
     SiteController.send :include, ReaderGroup::SiteControllerExtensions
 
+    Radiant::AdminUI.send :include, ReaderGroup::AdminUI unless defined? admin.group
+    admin.group = Radiant::AdminUI.load_default_group_regions
+
     UserActionObserver.instance.send :add_observer!, Group 
 
+    if defined? Site && admin.sites       # currently we know it's the spanner multi_site if admin.sites is defined
+      Site.send :include, ReaderGroup::Site
+      admin.group.index.add :top, "admin/shared/site_jumper"
+    end
+
     # admin.page.edit.add :parts_bottom, "admin/group/page_groups", :before => "edit_timestamp"
-    # admin.user.edit.add :form, "admin/user/user_groups", :before => "edit_notes"
-    admin.tabs.add "Groups", "/admin/groups", :after => "Layouts", :visibility => [:admin]
+    admin.reader.edit.add :form, "admin/readers/reader_groups", :before => "edit_notes"
+    admin.tabs.add "Groups", "/admin/groups", :after => "Readers", :visibility => [:admin]
   end
   
   def deactivate

@@ -3,12 +3,14 @@ class CreateGroups < ActiveRecord::Migration
     create_table :groups do |t|
       t.column :name, :string
       t.column :description, :text
+      t.column :notes, :text
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
       t.column :created_by_id, :integer
       t.column :updated_by_id, :integer
       t.column :homepage_id, :integer
       t.column :site_id, :integer
+      t.column :lock_version, :integer
     end
 
     create_table :groups_readers, :id => false do |t|

@@ -1,0 +1,16 @@
+- include_stylesheet('admin/group')
+= render_region :top
+
+%h1 Reader Groups
+
+%table#groups.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0"}
+  %thead
+    = render :partial => 'list_head'
+  %tbody
+    - @groups.each do |group|
+      = render :partial => 'listed', :locals => {:group => group}
+        
+- render_region :bottom do |bottom|
+  - bottom.new_button do
+    %p
+      = link_to image('new-group', :alt => 'New Group'), new_admin_group_url, :title => "New Group"
