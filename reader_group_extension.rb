@@ -7,7 +7,11 @@ class ReaderGroupExtension < Radiant::Extension
   url "http://spanner.org/radiant/reader_group"
   
   define_routes do |map|
-    map.namespace :admin, :member => { :remove => :get, :message => :any, :populate => :any } do |admin|
+    map.namespace :admin, :member => { 
+      :remove => :get, 
+      :message => :any, 
+      :populate => :any
+    } do |admin|
       admin.resources :groups
     end
   end
@@ -27,8 +31,9 @@ class ReaderGroupExtension < Radiant::Extension
       admin.group.index.add :top, "admin/shared/site_jumper"
     end
 
-    # admin.page.edit.add :parts_bottom, "admin/group/page_groups", :before => "edit_timestamp"
-    admin.reader.edit.add :form, "admin/readers/reader_groups", :before => "edit_notes"
+    admin.page.edit.add :parts_bottom, "page_groups", :before => "edit_timestamp"
+    admin.reader.edit.add :form, "reader_groups", :before => "edit_notes"
+
     admin.tabs.add "Groups", "/admin/groups", :after => "Readers", :visibility => [:admin]
   end
   

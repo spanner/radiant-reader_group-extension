@@ -1,0 +1,17 @@
+- include_stylesheet('admin/group')
+= hidden_field_tag "page[group_ids][]", ""
+
+.row
+  %p
+    Allow access only to:
+    - Group.find(:all).each do |g|
+      = check_box_tag "page[group_ids][]", g.id, @page.has_inherited_group?(g), {:id => "page_group_#{g.id}", :disabled => @page.group_is_inherited?(g)}
+      - if @page.group_is_inherited?(g)
+        %label{:for => "page_group_#{g.id}", :class => 'disabled', :title => "group is attached higher in the page tree: can't be detached here"}
+          = g.name
+      - else
+        %label{:for => "page_group_#{g.id}"}
+          = g.name
+    %br
+    %span.formnote
+      Leave all groups unchecked for public access.

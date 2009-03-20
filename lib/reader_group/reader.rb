@@ -18,7 +18,6 @@ module ReaderGroup::Reader
 
   module InstanceMethods     
   
-      
     def can_see? (page)
       grouplist = page.inherited_groups
       grouplist.empty? or in_any_of_these_groups?(grouplist)
@@ -30,6 +29,10 @@ module ReaderGroup::Reader
   
     def is_in? (group)
       in_any_of_these_groups?([group])
+    end
+  
+    def resend_group_welcomes
+      groups.each { |g| g.send_welcome_to(self) }
     end
   
   end

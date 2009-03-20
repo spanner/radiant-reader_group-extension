@@ -36,6 +36,10 @@ module ReaderGroup::Page
     def has_inherited_group?(group)
       return self.inherited_groups.include?(group)
     end
+    
+    def group_is_inherited?(group)
+      return self.has_inherited_group?(group) && !self.has_group?(group)
+    end
 
     # any page with a group-marker is never cached
     # so that we can keep logic out of the cache

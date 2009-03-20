@@ -16,6 +16,14 @@ module ReaderGroup::AdminUI
 
         def load_default_group_regions
           returning OpenStruct.new do |group|
+            group.show = Radiant::AdminUI::RegionSet.new do |show|
+              # reader list reuses reader.index regions
+              show.thead.concat %w{title_header description_header modify_header}
+              show.tbody.concat %w{title_cell description_cell modify_cell}
+              show.bottom.concat %w{new_button}
+              show.pages_head.concat %w{title_column_header modify_column_header}
+              show.page.concat %w{title_column add_child_column remove_column}
+            end
             group.edit = Radiant::AdminUI::RegionSet.new do |edit|
               edit.main.concat %w{edit_header edit_form}
               edit.form.concat %w{edit_title edit_homepage edit_description edit_notes}

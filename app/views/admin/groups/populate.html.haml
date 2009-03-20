@@ -1,0 +1,69 @@
+- include_stylesheet('admin/group')
+%h1 
+  Populate 
+  = link_to @group.name, admin_group_url(@group)
+  group
+
+%p 
+  This is a quick way to bring a group of people into the system in one go. 
+  Enter a comma-separated list of names and email addresses below (one person per line, no quoting) 
+  and each of those people will be brought into the system, issued an account with a vaguely adequate username 
+  and an entirely random password and sent the usual welcome message.
+
+- if @readers
+  - form_for @group, :url => { :action => "populate" }, :html => {:id => 'confirmation_form', :method => 'post'} do
+    .form-area
+      %h2 Please check reader list
+      %p Fields in red have validation problems. That usually means an email address or login is already in use here.
+      %table#import
+        %thead
+          %tr
+            %th
+              = check_box_tag "toggle_readers", 1, :checked => true
+            - if Radiant::Config['reader.use_honorifics?']
+              %th Title or rank
+            %th Full name
+            %th Email
+            %th Login
+        %tbody
+          - i = 0
+          - @readers.each do |reader| 
+            %tr
+              %td
+                = check_box_tag "import_reader[]", i, {:checked => true}
+              - if Radiant::Config['reader.use_honorifics?']
+                %td 
+                  = text_field_tag "reader_#{i}[honorific]", reader.honorific, :class => "preview#{ ' with_error' if reader.errors.on(:honorific)}", :title => reader.errors.on(:honorific)
+              %td 
+                = text_field_tag "reader_#{i}[name]", reader.name, :class => "preview#{ ' with_error' if reader.errors.on(:name)}", :title => reader.errors.on(:name)
+              %td 
+                = text_field_tag "reader_#{i}[email]", reader.email, :class => "preview#{ ' with_error' if reader.errors.on(:email)}", :title => reader.errors.on(:email)
+              %td 
+                = text_field_tag "reader_#{i}[login]", reader.login, :class => "preview#{ ' with_error' if reader.errors.on(:login)}", :title => reader.errors.on(:login)
+            - i = i + 1
+
+      %p.buttons
+        = submit_tag 'Create these users and add them to the group', :name => 'confirm'
+
+      %p
+        You can tweak the calculated values above and select the users you want to import, or redo the list and try again below:
+
+- form_for @group, :url => { :action => "populate" }, :html => {:id => 'preview_form', :method => 'post'} do
+  .form-area
+    %h2 Readers to import
+    %p
+      %label{:for => "readerlist"}
+        User List
+      - if Radiant::Config['reader.use_honorifics?']
+        title or rank, 
+      name, email, [login]
+      %br
+      = text_area_tag "readerlist", params[:readerlist], :class => "textarea", :style => "width: 100%; height: 240px;"
+
+    %p 
+      Please check the list formatting carefully. Be sure there are no commas other than where you want them and that the email addresses are correct.
+    
+    %p.buttons
+      = submit_tag 'check import'
+      or
+      = link_to "Cancel", admin_group_url(@group)

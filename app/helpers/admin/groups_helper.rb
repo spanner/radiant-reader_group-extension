@@ -19,7 +19,6 @@ EOM
   def choose_page(object, field, select_options={})
     options = page_option_branch(Page.homepage)
     options.unshift ['<default>', nil]
-    logger.warn "!!! #{options.inspect}"
     select object, field, options, select_options
   end
     

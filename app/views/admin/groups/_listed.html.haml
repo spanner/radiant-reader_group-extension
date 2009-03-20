@@ -14,10 +14,10 @@
           none
     - tbody.members_cell do
       %td.members
-        = group.readers.count
+        = link_to group.readers.count, admin_group_url(group)
     - tbody.pages_cell do
       %td.pages
-        = group.pages.count
+        = link_to group.pages.count, admin_group_url(group)
     - tbody.modify_cell do
       %td.actions
         = link_to image('remove', :alt => 'Remove group'), remove_admin_group_url(group)

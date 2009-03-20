@@ -1,0 +1,47 @@
+- include_stylesheet('admin/group')
+
+%h1
+  = @group.name
+= textilize(@group.description)
+
+%p
+  = link_to "Edit group", edit_admin_group_url(@group)
+  = link_to "Remove group", remove_admin_group_url(@group)
+
+.halfpage
+  %h2
+    = @group.name
+    pages
+
+  %table#group_pages.index{:summary=>"Page hierarchy of the current site"}
+    %thead
+      %tr
+        - render_region :pages_head do |sitemap_head|
+          - sitemap_head.title_column_header do
+            %th.page Page
+          - sitemap_head.modify_column_header do
+            %th.modify{:colspan=>"2"} Modify
+    %tbody
+      - @group.pages.each do |page|
+        = render :partial => 'admin/pages/listed', :locals => {:page => page, :level => 0}
+
+.halfpage
+  %h2
+    = @group.name
+    members
+    = link_to image('message', :alt => 'Message to group'), message_admin_group_url(@group)
+
+  %table#readers.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0"}
+    %thead
+      = render :partial => 'admin/readers/list_head'
+    %tbody
+      - @group.readers.each do |reader|
+        = render :partial => 'admin/readers/listed', :locals => {:reader => reader}
+  
+  = link_to image('populate', :alt => 'Batch create readers') + " add new members", populate_admin_group_url(@group)
+  
+.stretcher
+  = link_to "Edit group", edit_admin_group_url(@group)
+  = link_to "Remove group", remove_admin_group_url(@group)
+
+  
