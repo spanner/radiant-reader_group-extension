@@ -5,3 +5,91 @@
 #content .form-area p.homepage  {
   margin: 20px 0;
 }
+
+#content .form-area label.optional {
+  color: #929488;
+}
+
+#content table#groups td.group {
+  padding: 10px;
+  width: 50%;
+}
+
+#content table#groups td.group a {
+  font-family: 'Lucida Grande';
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+}
+
+#content table#groups td.group p {
+  margin: 0;
+  color: #929488;
+}
+
+#content table#import th {
+  text-align: left;
+}
+#content table#import td {
+  padding: 2px;
+}
+
+#content form#confirmation_form input.preview {
+  border: 1px solid #929488;
+  font-family: 'Lucida Grande';
+  font-size: 16px;
+  padding: 3px;
+}
+
+#content form#confirmation_form input.with_error {
+  border: 1px solid #c00;
+  color: #c00;
+}
+
+#content form#confirmation_form p.buttons {
+  margin-top: 10px;
+}
+
+#content .form-area label.disabled {
+  color: #929488;
+}
+
+#content .form-area span.formnote {
+  font-size: 80%;
+  color: #929488;
+}
+
+#content div.halfpage {
+  width: 48%;
+  margin-right: 2%;
+  float: left;
+}
+
+#content div.stretcher {
+  clear: left;
+}
+
+#content table#group_pages td.page a {
+  color: black;
+  text-decoration: none;
+}
+
+#content table#group_pages td.page a:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+#content blockquote.messagepreview {
+	border: 3px solid #999;
+	background-color: #eee;
+	margin: 0;
+	padding: 20px;
+	font-family: courier, monospace;
+	font-size: 13px;
+	line-height: 16px;
+}
+
+#content .form-area p.description {
+  margin-top: 10px;
+}

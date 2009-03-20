@@ -1,53 +1,38 @@
-<% content_for :page_css do %>
-	div.messagepreview {
-		border: 3px solid #999;
-		background-color: #eee;
-		padding: 20px;
-		font-family: courier, mono;
-		font-size: 13px;
-		line-height: 16px;
-	}
-<% end %>
+- include_stylesheet('admin/group')
+%h1 
+  Send message to 
+  = link_to @group.name, edit_admin_group_url(@group)
+  group
 
+- if params[:subject] && params[:message]
+  .form-area
+    - form_for @group, :url => { :action => "message" }, :html => {:id => 'confirmation_form', :method => 'post'} do
+      = hidden_field_tag "subject", h(params[:subject])
+      = hidden_field_tag "message", h(params[:message])
 
-<h1 id="send_message">Send message to <%= @group.title %> group</h1>
+      %h2 
+        Please check message
+      
+      %blockquote.messagepreview
+        = message_preview(params[:subject], params[:message], @group.readers.first)    
+        %p.buttons
+          = submit_tag 'This is fine. Send it to everyone.', :name => 'confirm'
 
-<% if params[:subject] && params[:message] %>
+    %p 
+      Not fine? Edit and preview again below.
 
-<% form_tag({}, {:multipart => true}) do %>
-  
-<%= hidden_field_tag "subject", h(params[:subject]) %>
-<%= hidden_field_tag "message", h(params[:message]) %>
-  
-		<p>Quick check:</p>
+- form_for @group, :url => { :action => "message" }, :html => {:id => 'message_form', :method => 'post'} do
+  .form-area
+    %p.title
+      %label{:for => "subject"}
+        Message Subject
+        = text_field_tag "subject", params[:subject], :class => 'textbox', :maxlength => 255
+    %p.description
+      %label{:for => "message"}
+        Message Body
+        = text_area_tag "message", params[:message], :class => 'textarea', :style => "width: 100%"
 
-		<div class="messagepreview">
-			<%= message_preview(params[:subject], params[:message]) %>
-		</div>
-		
-		<p class="buttons">
-		  <%= submit_tag 'This is fine. Send it to everyone.', :name => 'confirm' %>
-		</p>
-  <% end %>
-	
-	<p>This is not fine? Edit and preview again below.</p>
-
-<% end  %>
-
-<% form_tag({}, {:multipart => true}) do %>
-  <div class="form-area">
-    <p class="title">
-      <label for="page_title">Message Subject</label>
-      <%= text_field_tag "subject", params[:subject], :class => 'textbox', :maxlength => 255 %>
-    </p>
-
-    <p>
-      <label for="body">Message Body</label>
-			<%= text_area_tag "message", params[:message], :class => "textarea", :style => "width: 100%" %>
-		</p>
-    
-		<p class="buttons">
-		  <%= submit_tag 'Preview message' %> or <%= link_to "Cancel", group_index_url %>
-		</p>
-	</div>
-<% end %>
+    %p.buttons
+      = submit_tag 'Preview message', :name => 'preview'
+      or
+      = link_to "Cancel", admin_group_url(@group)

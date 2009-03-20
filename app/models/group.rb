@@ -26,7 +26,12 @@ class Group < ActiveRecord::Base
   end
 
   def send_message_to_all(subject, message)
-    self.readers.each { |reader| self.send_message_to(reader, subject, message) }
+    count = 0
+    self.readers.each do |reader| 
+      count += 1
+      self.send_message_to(reader, subject, message) 
+    end
+    count
   end
 
 end

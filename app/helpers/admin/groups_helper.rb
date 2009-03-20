@@ -1,19 +1,18 @@
 module Admin::GroupsHelper
 
-  def message_preview(subject, body)
+  def message_preview(subject, body, reader)
     preview = <<EOM
-<blockquote><p>
 From: #{current_user.name} &lt;#{current_user.email}&gt;
-To: [each person's email addresses]
+To: #{reader.name} &lt;#{reader.email}&gt;
 Date: #{Time.now.to_date.to_s :long}
 <strong>Subject: #{subject}</strong>
 
-Dear [each person's full name]
+Dear #{reader.name},
 
 #{body}
 
-</p></blockquote>
 EOM
+  simple_format(preview)
   end
   
   def choose_page(object, field, select_options={})

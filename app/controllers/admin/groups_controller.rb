@@ -14,9 +14,9 @@ class Admin::GroupsController < Admin::ResourceController
   
   def message
     if request.post? && params[:confirm]
-      @group.send_message_to_all(params[:subject], params[:message])
-      flash[:notice] = 'Message sent to group.'
-      redirect_to show_admin_group_url(@group)
+      count = @group.send_message_to_all(params[:subject], params[:message].gsub(/^\s{3,}/, ''))
+      flash[:notice] = "Message sent to #{count} member(s) of #{@group.name}."
+      redirect_to admin_group_url(@group)
     end
   end
 
