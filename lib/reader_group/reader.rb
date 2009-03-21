@@ -18,8 +18,8 @@ module ReaderGroup::Reader
 
   module InstanceMethods     
   
-    def can_see? (page)
-      grouplist = page.inherited_groups
+    def can_see? (this)   # this might be page or forum, so far
+      grouplist = this.inherited_groups
       grouplist.empty? or in_any_of_these_groups?(grouplist)
     end
       

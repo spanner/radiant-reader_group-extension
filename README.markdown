@@ -4,4 +4,15 @@ This extension introduces the reader group: a set of readers that can be given p
 
 ## Status
 
-Getting there. The core is all working and groups can be created and edited but I haven't brought across the more useful code for sending out messages to the whole group, batch-inviting people and generally managing large groups of site users.
+Nearly ready. All the functionality is here but the interface could stand a bit of polish.
+
+## Bugs and comments
+
+In [lighthouse](http://spanner.lighthouseapp.com/projects/26912-radiant-extensions), please, or for little things an email or github message is always welcome.
+
+## Author and copyright
+
+Copyright spanner ltd 2007-9.
+Released under the same terms as Rails and/or Radiant.
+Contact will at spanner.org
+
