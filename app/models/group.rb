@@ -18,7 +18,7 @@ class Group < ActiveRecord::Base
   validates_uniqueness_of :name
     
   def send_welcome_to(reader)
-    GroupNotifier::deliver_welcome_message(reader)
+    GroupNotifier::deliver_welcome_message(reader, self) if reader.activated?     # welcomes will be sent on activation
   end
 
   def send_message_to(reader, subject, message)

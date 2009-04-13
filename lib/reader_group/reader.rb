@@ -13,6 +13,12 @@ module ReaderGroup::Reader
         end
       end
       alias_method_chain :homepage, :group
+
+      def activate_with_group!
+        send_group_welcomes if activate_without_group!
+      end
+      alias_method_chain :activate!, :group
+
     }
   end
 
@@ -31,7 +37,7 @@ module ReaderGroup::Reader
       in_any_of_these_groups?([group])
     end
   
-    def resend_group_welcomes
+    def send_group_welcomes
       groups.each { |g| g.send_welcome_to(self) }
     end
   

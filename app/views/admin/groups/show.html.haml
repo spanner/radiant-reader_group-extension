@@ -1,7 +1,9 @@
 - include_stylesheet('admin/group')
 
 %h1
+  Group:
   = @group.name
+
 = textilize(@group.description)
 
 %p
@@ -22,25 +24,40 @@
           - sitemap_head.modify_column_header do
             %th.modify{:colspan=>"2"} Modify
     %tbody
-      - @group.pages.each do |page|
-        = render :partial => 'admin/pages/listed', :locals => {:page => page, :level => 0}
+      - if @group.pages.any?
+        - @group.pages.each do |page|
+          = render :partial => 'admin/pages/listed', :locals => {:page => page, :level => 0}
+      - else 
+        %tr.node.level-1
+          %td.note{:colspan => 3} This group has no pages
 
 .halfpage
   %h2
     = @group.name
     members
     = link_to image('message', :alt => 'Message to group'), message_admin_group_url(@group)
+    = link_to image('populate', :alt => 'Batch create readers'), populate_admin_group_url(@group)
 
   %table#readers.index{:cellspacing=>"0", :border=>"0", :cellpadding=>"0"}
     %thead
       = render :partial => 'admin/readers/list_head'
     %tbody
-      - @group.readers.each do |reader|
-        = render :partial => 'admin/readers/listed', :locals => {:reader => reader}
-  
-  = link_to image('populate', :alt => 'Batch create readers') + " add new members", populate_admin_group_url(@group)
-  
-.stretcher
-  = link_to "Edit group", edit_admin_group_url(@group)
-  = link_to "Remove group", remove_admin_group_url(@group)
+      - if @group.readers.any?
+        - @group.readers.each do |reader|
+          = render :partial => 'admin/readers/listed', :locals => {:reader => reader}
+      - else 
+        %tr.node.level-1
+          %td.note{:colspan => 3} This group has no members
 
+.stretcher
+  %p
+    To give pages to this group, just edit the page and tick the 
+    %strong
+      = @group.name
+    box. The page and all its descendants will be visible only to members of this group (and any others that you select). To make it public again, uncheck all the groups.
+  %p
+    To bring people into this group you can either edit  
+    = link_to "individual readers", admin_readers_url
+    or follow the 
+    = link_to "populate group", populate_admin_group_url(@group)
+    links to bring in a batch of people in one go.

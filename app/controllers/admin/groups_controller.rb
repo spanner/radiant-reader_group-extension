@@ -22,7 +22,14 @@ class Admin::GroupsController < Admin::ResourceController
 
   def populate
     if request.post? && params[:import_reader]
-      notice = 'Stored and grouped: '
+      notice = ''
+      params[:invite_reader].each do |i|
+        if reader = Reader.find_by_id(i)
+          reader.groups << @group unless reader.is_in?(@group)
+          @group.send_welcome_to(reader)
+          notice += "#{reader.name} added to group. "
+        end
+      end
       params[:import_reader].each do |i|
         r = params["reader_#{i}".to_sym]
         r[:password] = r[:password_confirmation] = generate_password
@@ -31,7 +38,7 @@ class Admin::GroupsController < Admin::ResourceController
         if reader.save!
           reader.groups << @group
           @group.send_welcome_to(reader)
-          notice += "#{reader.name}. "
+          notice += "#{reader.name} account created. "
         end
       end
       flash[:notice] = notice
@@ -52,9 +59,10 @@ class Admin::GroupsController < Admin::ResourceController
       readers = []
       CSV::StringReader.parse(readerdata).each do |line|
         values = line.collect {|value| value.gsub(/^ */, '').chomp}
-        login = generate_login(values[0])
-        r = Reader.new({:name => values[0], :email => values[1], :login => login})
-        r.valid?
+        r = Reader.find_or_create_by_email(values[1])
+        r.name ||= values[0]
+        r.login ||= values[2] || generate_login(values[0])
+        r.valid?    # so that errors can be shown on the confirmation form
         readers << r
       end
       readers

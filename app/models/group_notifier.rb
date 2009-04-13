@@ -1,27 +1,33 @@
 class GroupNotifier < ActionMailer::Base
 
-  def invitation_message( reader )
-    @recipients = reader.email
-    @from = "William Ross <will@spanner.org>"   #*** todo
-    @subject = "*** todo"
-    @body[:reader] = reader
-    @body[:password] = reader.clear_password
-  end
-
-  def welcome_message( reader )
-    @recipients = reader.email
-    @from = "William Ross <will@spanner.org>"   #*** todo
-    @subject = "*** todo"
-    @body[:reader] = reader
+  def welcome_message( reader, group )
+    setup_email(reader, group)
   end
 
   def this_message( reader, group, subject, message )
-    @recipients = reader.email
-    @from = "William Ross <will@spanner.org>"   #*** todo
+    setup_email(reader, group)
     @subject = subject
-    @body[:reader] = reader
     @body[:message] = message
-    @body[:group] = group
   end
+
+  protected
+  
+    def setup_email(reader, group)
+      site = reader.site if reader.respond_to?(:site)
+      default_url_options[:host] = site ? site.base_domain : Radiant::Config['site.url'] || 'www.example.com'
+      @from = site ? site.mail_from_address : Radiant::Config['readers.default_mail_from_address']
+      @content_type = 'text/plain'
+      @recipients = "#{reader.email}"
+      @subject = ""
+      @sent_on = Time.now
+      @body[:reader] = reader
+      @body[:sender] = site ? site.mail_from_name : Radiant::Config['readers.default_mail_from_name']
+      @body[:site_title] = site ? site.name : Radiant::Config['site.title']
+      @body[:site_url] = site ? site.base_domain : Radiant::Config['site.url']
+      @body[:login_url] = reader_login_url
+      @body[:my_url] = reader_url(reader)
+      @body[:prefs_url] = edit_reader_url(reader)
+      @body[:group] = group
+    end
 
 end
