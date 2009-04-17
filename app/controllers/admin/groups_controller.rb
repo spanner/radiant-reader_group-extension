@@ -1,12 +1,12 @@
 class Admin::GroupsController < Admin::ResourceController
   require 'csv'
   
-  only_allow_access_to :new, :edit, :remove, :populate, :message, 
+  only_allow_access_to :new, :edit, :remove, :populate, :message, :add_reader, :remove_reader,
     :when => :admin,
     :denied_url => {:controller => 'page', :action => :index},
     :denied_message => 'You must be an administrator to work on reader groups.'
   
-  before_filter :find_group, :only => [:show, :message, :populate]
+  before_filter :find_group, :only => [:show, :message, :populate, :add_reader, :remove_reader]
   
   def show
     
@@ -46,6 +46,24 @@ class Admin::GroupsController < Admin::ResourceController
     else 
       @readers = readers_from_csv(params[:readerlist]) if params[:readerlist]
       response_for :singular
+    end
+  end
+  
+  def add_reader
+    @reader = Reader.find(params[:reader])
+    @group.readers << @reader unless @reader.is_in?(@group)
+    respond_to do |format|
+      format.html { redirect_to :action => 'show' }
+      format.js { render :partial => 'admin/groups/reader', :object => @reader }
+    end
+  end
+  
+  def remove_reader
+    @reader = Reader.find(params[:reader])
+    @group.readers.delete(@reader) if @reader.is_in?(@group)
+    respond_to do |format|
+      format.html { redirect_to :action => 'show' }
+      format.js { render :partial => 'admin/groups/reader', :object => @reader }
     end
   end
   

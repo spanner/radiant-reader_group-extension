@@ -14,6 +14,10 @@ class ReaderGroupExtension < Radiant::Extension
     } do |admin|
       admin.resources :groups
     end
+    map.with_options(:controller => 'admin/groups') do |group|
+      group.add_group_reader '/admin/groups/:id/add_reader/:reader',  :action => 'add_reader'
+      group.remove_group_reader '/admin/groups/:id/remove_reader/:reader',  :action => 'remove_reader'
+    end
   end
   
   def activate

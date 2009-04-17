@@ -1,0 +1,12 @@
+- liclass = 'loose'
+- liclass = 'attached' if page.has_group?(@group)
+- liclass = 'inherited' if page.group_is_inherited?(@group)
+
+%li{:class => liclass}
+  = check_box_tag 'page_id', page.id, page.has_group?(@group), {:disabled => page.group_is_inherited?(@group)}
+  %span.title
+    = link_to page.title, edit_admin_page_url(page)    
+  - if page.children.any?
+    %ul
+      - page.children.each do |child|
+        = render :partial => 'page', :object => child
