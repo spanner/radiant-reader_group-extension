@@ -47,6 +47,10 @@
   color: #c00;
 }
 
+#content form#confirmation_form tr.invite td input {
+  background-color: #e2e1dc;
+}
+
 #content form#confirmation_form p.buttons {
   margin-top: 10px;
 }
@@ -60,9 +64,14 @@
   color: #929488;
 }
 
-#content div.halfpage {
-  width: 48%;
-  margin-right: 2%;
+#content #group_pages {
+  width: 60%;
+  float: left;
+}
+
+#content #group_people {
+  width: 30%;
+  margin: 0 5%;
   float: left;
 }
 
@@ -93,3 +102,78 @@
 #content .form-area p.description {
   margin-top: 10px;
 }
+
+#content #footnotes {
+  clear: both;
+  margin-top: 50px;
+}
+
+#group_pages ul {
+  padding-left: 20px;
+}
+
+#group_people ul {
+  padding-left: 0;
+}
+
+
+#group_people ul li, #group_pages ul li {
+  font-size: 16px;
+  list-style: none;
+  line-height: 24px;
+  margin-top: 2px;
+  font-family: 'Lucida Grande';
+}
+
+/*#group_people ul li a, #group_pages ul li a {
+  text-decoration: none;
+  font-weight: normal;
+}
+*/
+/*
+#group_pages ul li.inherited a {
+  color: #ccc;
+  font-weight: normal;
+}
+
+#group_people ul li.attached a, #group_pages ul li.attached a {
+  color: #060;
+  font-weight: bold;
+}
+*/
+
+
+
+.fake_checkbox {
+  padding-left: 20px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: 0 3px;
+}
+.fake_checkbox input {
+  position: absolute;
+  left: -9999px;
+}
+.fake_checkbox a {
+  text-decoration: none;
+}
+
+.checked { background-image: url(/images/admin/chk_on.png); }
+.unchecked { background-image: url(/images/admin/chk_off.png); }
+.selected { background-image: url(/images/admin/rdo_on.png); }
+.unselected { background-image: url(/images/admin/rdo_off.png); }
+.waiting { background-image: url(/images/admin/spinner.gif); }
+.failed { background-image: url(/images/admin/error.png); }
+.inherited { background-image: url(/images/admin/chk_auto.png); }
+
+.checked a, .selected a { color: #5da454; }
+.unchecked a, .unselected a { color: #ccc; font-weight: normal;}
+.waiting a { color: #8c8d8e; }
+.failed a { color: #c00; }
+.inherited { color: #bfe4b9; }
+
+
+
+
+
+

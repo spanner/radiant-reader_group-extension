@@ -1,6 +1,4 @@
 - include_stylesheet 'admin/group'
-- include_javascript 'lowpro'
-- include_javascript 'admin/group'
 
 %h1
   Group:
@@ -18,7 +16,9 @@
     pages
 
   %ul
-    = render :partial => 'page', :object => Page.homepage
+    - page = Page.homepage
+    %div{:id => "page_holder_#{page.id}"}
+      = render :partial => 'page', :object => page
 
 #group_people
   %h2
