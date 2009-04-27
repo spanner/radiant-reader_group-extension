@@ -14,8 +14,8 @@ module ReaderGroup::Reader
       end
       alias_method_chain :homepage, :group
 
-      def activate_with_group!
-        send_group_welcomes if activate_without_group!
+      def activate_with_group!(code)
+        send_group_welcomes if activate_without_group!(code)
       end
       alias_method_chain :activate!, :group
 
@@ -34,9 +34,13 @@ module ReaderGroup::Reader
     end
   
     def is_in? (group)
-      in_any_of_these_groups?([group])
+      groups.include? group
     end
-  
+    
+    def has_group?(group=nil)
+      group.nil? ? groups.any? : groups.include?(group)
+    end
+    
     def send_group_welcomes
       groups.each { |g| g.send_welcome_to(self) }
     end
