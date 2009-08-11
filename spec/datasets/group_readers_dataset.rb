@@ -1,3 +1,5 @@
+require "authlogic/test_case"
+
 class GroupReadersDataset < Dataset::Base
   uses :group_sites if defined? Site
 

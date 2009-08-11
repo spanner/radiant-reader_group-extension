@@ -14,6 +14,7 @@ module ReaderGroup::Page
       permitted_groups = self.inherited_groups  
       return true if permitted_groups.empty?
       return false if reader.nil?
+      return true if reader.is_admin?
       return reader.in_any_of_these_groups?(permitted_groups)
     end
 
