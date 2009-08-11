@@ -2,8 +2,8 @@ module ReaderGroup::Page
 
   def self.included(base)
     base.class_eval {
-      has_and_belongs_to_many :groups
-            
+      has_many :group_permissions
+      has_many :groups, :through => :group_permissions
       include InstanceMethods
     }
   end
@@ -42,7 +42,8 @@ module ReaderGroup::Page
     end
 
     # any page with a group-marker is never cached
-    # so that we can keep logic out of the cache
+    # so that we can continue to return cache hits without care
+    # this check is regrettably expensive
 
     def cache?
       self.inherited_groups.any?

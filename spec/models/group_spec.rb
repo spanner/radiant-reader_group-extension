@@ -3,10 +3,6 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Group do
   dataset :groups, :pages
   
-  before do
-    @site = Page.current_site = sites(:test) if defined? Site
-  end
-  
   describe "on validation" do
     before do
       @group = Group.new :name => "Unique Test Group"

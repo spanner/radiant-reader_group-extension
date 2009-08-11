@@ -1,6 +1,8 @@
 require 'digest/sha1'
 class GroupsDataset < Dataset::Base
-  uses :pages, :group_readers, (:group_sites if defined? Site)
+  datasets = [:pages, :group_readers]
+  datasets << :group_sites if defined? Site
+  uses *datasets
 
   def load
     create_group "Normal"

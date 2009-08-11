@@ -1,10 +1,18 @@
 # Reader Group Extension
 
-This extension introduces the reader group: a set of readers that can be given permission to access pages, forums, downloads and other public site content. It does not group your users or affect the admin interface (apart from adding a groups tab, of course).
+If you want to publish pages that only some people can see, this extension may well be the answer. It extends the Reader framework by adding group-membership and group-based access control to the pages in your public site. In combination with our other extensions it also lets you control access to forums, downloads and assets, and it proovides useful shortcuts for batch-importing and messaging groups. I hope other people will find the framework useful and apply it to their own requirements.
+
+This extension doesn't group your users or affect the admin interface at all, apart from adding some machinery for looking after groups. As always, readers have their own self-management interface that looks like the rest of your site. They never see the admin pages.
+
+This works with multi_site. If you use [our fork](https://github.com/spanner/radiant-paperclipped_multisite-extension/tree) then readers and groups are automatically site-scoped.
+
+## Status
+
+This has been brought across from a previous version that grouped users instead of working in the reader framework, so it's a mixture of the well-tested and the just-invented. It's in trial use on a couple of biggish sites and seems fairly robust.
 
 ## Requirements
 
-The [reader](https://github.com/spanner/radiant-reader-extension/tree) extension.
+The [reader](https://github.com/spanner/radiant-reader-extension/tree) extension. 
 
 ## Installation
 
@@ -14,19 +22,13 @@ Once you've got the reader extension in, the rest is easy:
 	rake radiant:extensions:reader_group:migrate
 	rake radiant:extensions:reader_group:update
 
-## Status
-
-Nearly ready. All the functionality is here and the interface is improving. In trial use on a couple of biggish sites and getting more robust.
-
-Just added: prettified page- and reader-choosers in admin.
-
 ## Bugs and comments
 
 In [lighthouse](http://spanner.lighthouseapp.com/projects/26912-radiant-extensions), please, or for little things an email or github message is always welcome.
 
 ## Author and copyright
 
-Copyright spanner ltd 2007-9.
-Released under the same terms as Rails and/or Radiant.
-Contact will at spanner.org
+* Copyright spanner ltd 2007-9.
+* Released under the same terms as Rails and/or Radiant.
+* Contact will at spanner.org
 

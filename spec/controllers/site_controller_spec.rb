@@ -16,19 +16,16 @@ describe SiteController do
     end
     
     describe "getting an ungrouped page" do
-      before do
-        get :show_page, :url => ''
-      end
       it "should render the page" do
+        get :show_page, :url => ''
         response.should be_success
         response.body.should == 'Hello world!'
       end
     end
+    
     describe "getting a grouped page" do
-      before do
-        get :show_page, :url => 'parent/'
-      end
       it "should redirect to reader login" do
+        get :show_page, :url => 'parent/'
         response.should be_redirect
         response.should redirect_to(reader_login_url)
       end
@@ -41,28 +38,24 @@ describe SiteController do
     end
 
     describe "getting an ungrouped page" do
-      before do
-        get :show_page, :url => ''
-      end
       it "should render the page" do
+        get :show_page, :url => ''
         response.should be_success
         response.body.should == 'Hello world!'
       end
     end
+    
     describe "getting a grouped page to which she has access" do
-      before do
-        get :show_page, :url => 'parent/'
-      end
       it "should render the page" do
+        get :show_page, :url => 'parent/'
         response.should be_success
         response.body.should == 'Parent body.'
       end
     end
+    
     describe "getting a grouped page to which she doesn't have access" do
-      before do
-        get :show_page, :url => 'news/'
-      end
       it "should render the permission-denied page" do
+        get :show_page, :url => 'news/'
         response.should be_success
         response.body.should =~ //
       end

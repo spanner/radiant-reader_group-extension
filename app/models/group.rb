@@ -1,18 +1,16 @@
 class Group < ActiveRecord::Base
 
-  class PermissionDenied < StandardError
-    def initialize(message = "Sorry: you don't have access to that page"); super end
-  end
-
-  is_site_scoped      # if multi_site is not installed then reader will spoof this call
-  order_by 'name'
+  is_site_scoped if defined? ActiveRecord::SiteNotFound
+  default_scope :order => 'name'
 
   belongs_to :created_by, :class_name => 'User'
   belongs_to :updated_by, :class_name => 'User'
   belongs_to :homepage, :class_name => 'Page'
 
-  has_and_belongs_to_many :readers
-  has_and_belongs_to_many :pages
+  has_many :group_permissions
+  has_many :pages, :through => :group_permissions
+  has_many :group_memberships
+  has_many :readers, :through => :group_memberships
   
   validates_presence_of :name
   validates_uniqueness_of :name

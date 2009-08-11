@@ -1,8 +1,7 @@
-# Uncomment this if you reference any of your controllers in activate
-require_dependency 'application'
+require_dependency 'application_controller'
 
 class ReaderGroupExtension < Radiant::Extension
-  version "0.4"
+  version "0.8"
   description "Page access control for site readers and groups"
   url "http://spanner.org/radiant/reader_group"
   
@@ -25,20 +24,21 @@ class ReaderGroupExtension < Radiant::Extension
   def activate
     Reader.send :include, ReaderGroup::Reader
     Page.send :include, ReaderGroup::Page
+    Site.send :has_many, :groups if defined? Site
+
     SiteController.send :include, ReaderGroup::SiteControllerExtensions
-
-    Radiant::AdminUI.send :include, ReaderGroup::AdminUI unless defined? admin.group
-    admin.group = Radiant::AdminUI.load_default_group_regions
-
     UserActionObserver.instance.send :add_observer!, Group 
+    ReaderGroup::Exception
 
-    if defined? Site && admin.sites       # currently we know it's the spanner multi_site if admin.sites is defined
-      Site.send :include, ReaderGroup::Site
-      admin.group.index.add :top, "admin/shared/site_jumper"
+    unless defined? admin.group
+      Radiant::AdminUI.send :include, ReaderGroup::AdminUI
+      admin.group = Radiant::AdminUI.load_default_group_regions
+      admin.page.edit.add :parts_bottom, "page_groups", :before => "edit_timestamp"
+      admin.reader.edit.add :form, "reader_groups", :before => "edit_notes"
+      if defined? admin.sites
+        admin.group.index.add :top, "admin/shared/site_jumper"
+      end
     end
-
-    admin.page.edit.add :parts_bottom, "page_groups", :before => "edit_timestamp"
-    admin.reader.edit.add :form, "reader_groups", :before => "edit_notes"
 
     admin.tabs.add "Groups", "/admin/groups", :after => "Readers", :visibility => [:admin]
   end
@@ -48,3 +48,4 @@ class ReaderGroupExtension < Radiant::Extension
   end
   
 end
+
