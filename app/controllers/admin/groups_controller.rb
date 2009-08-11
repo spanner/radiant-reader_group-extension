@@ -1,11 +1,6 @@
 class Admin::GroupsController < Admin::ResourceController
   require 'csv'
-  
-  only_allow_access_to :new, :edit, :remove, :populate, :message, :add_reader, :remove_reader, :add_page, :remove_page,
-    :when => :admin,
-    :denied_url => {:controller => 'page', :action => :index},
-    :denied_message => 'You must be an administrator to work on reader groups.'
-  
+    
   before_filter :find_group, :only => [:show, :message, :populate, :add_reader, :remove_reader, :add_page, :remove_page]
   
   def show
