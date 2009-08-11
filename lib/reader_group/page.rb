@@ -10,11 +10,11 @@ module ReaderGroup::Page
   
   module InstanceMethods     
     
-    def visible_to?(reader)      
-      return true if self.inherited_groups.empty?
+    def visible_to?(reader)
+      permitted_groups = self.inherited_groups  
+      return true if permitted_groups.empty?
       return false if reader.nil?
-      return false if reader.groups.empty?
-      return !(self.inherited_groups & reader.groups ).empty? 
+      return reader.in_any_of_these_groups?(permitted_groups)
     end
 
     # this is all very inefficient recursive stuff
