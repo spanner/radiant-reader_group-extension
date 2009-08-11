@@ -1,8 +1,9 @@
 - include_stylesheet('admin/group')
+
 %h1 
-  Send message to 
-  = link_to @group.name, edit_admin_group_url(@group)
-  group
+  Message:
+  = link_to @group.name, admin_group_url(@group)
+  = render :partial => 'actions', :locals => {:group => @group}
 
 - if params[:subject] && params[:message]
   .form-area

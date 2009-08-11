@@ -172,7 +172,13 @@
 .failed a { color: #c00; }
 .inherited { color: #bfe4b9; }
 
+span.group_actions img {
+  opacity: 0.5;
+}
 
+span.group_actions a img {
+  opacity: 1;
+}
 
 
 

@@ -7,6 +7,9 @@ class Admin::GroupsController < Admin::ResourceController
     
   end
   
+  # this should all be restfulised with a group messages controller (and model)
+  # and a group_invitations controller. 
+  
   def message
     if request.post? && params[:confirm]
       count = @group.send_message_to_all(params[:subject], params[:message].gsub(/^\s{3,}/, ''))

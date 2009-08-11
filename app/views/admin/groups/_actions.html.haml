@@ -1,0 +1,5 @@
+%span.group_actions
+  = link_to_unless_current image('edit', :alt => 'Edit group'), edit_admin_group_url(group)
+  = link_to_unless_current image('remove', :alt => 'Remove group'), remove_admin_group_url(group)
+  = link_to_unless_current image('message', :alt => 'Message to group'), message_admin_group_url(group)
+  = link_to_unless_current image('populate', :alt => 'Batch create readers'), populate_admin_group_url(group)

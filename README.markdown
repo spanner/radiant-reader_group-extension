@@ -6,9 +6,15 @@ This extension doesn't group your users or affect the admin interface at all, ap
 
 This works with multi_site. If you use [our fork](https://github.com/spanner/radiant-paperclipped_multisite-extension/tree) then readers and groups are automatically site-scoped.
 
+## Latest
+
+Brought up to date with 0.8 and the latest `multi_site` and `reader` extensions. Some tidying up internally. 
+
 ## Status
 
-This has been brought across from a previous version that grouped users instead of working in the reader framework, so it's a mixture of the well-tested and the just-invented. It's in trial use on a couple of biggish sites and seems fairly robust.
+This has been brought across from a previous version that grouped users instead of working in the reader framework, so it's a mixture of the well-used and the just-invented, but the tests are fairly comprehensive and  it's in trial use on a couple of biggish sites and seems fairly robust.
+
+Next: to restfulise the groups controller and improve the messaging interface with better records and presentation, message templates and so on.
 
 ## Requirements
 

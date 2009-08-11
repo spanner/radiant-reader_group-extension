@@ -3,12 +3,9 @@
 %h1
   Group:
   = @group.name
+  = render :partial => 'actions', :locals => {:group => @group}
 
 = textilize(@group.description)
-
-%p
-  = link_to "Edit group", edit_admin_group_url(@group)
-  = link_to "Remove group", remove_admin_group_url(@group)
 
 #group_pages
   %h2
