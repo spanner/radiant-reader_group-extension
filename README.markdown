@@ -1,6 +1,8 @@
 # Reader Group Extension
 
-If you want to publish pages that only some people can see, this extension may well be the answer. It extends the Reader framework by adding group-membership and group-based access control to the pages in your public site. In combination with our other extensions it also lets you control access to forums, downloads and assets, and it proovides useful shortcuts for batch-importing and messaging groups. I hope other people will find the framework useful and apply it to their own requirements.
+The basic purpose of this extension is to control access to pages in your public site. It allows you to create a group of readers, and to make pages visible only to selected groups. It also provides a useful - but currently rather basic - group-messaging interface and a batch-import function for inviting readers.
+
+In combination with our other extensions it also lets you control access to forums, downloads and assets. I hope other people will find the framework useful and apply it to their own requirements.
 
 This extension doesn't group your users or affect the admin interface at all, apart from adding some machinery for looking after groups. As always, readers have their own self-management interface that looks like the rest of your site. They never see the admin pages.
 
@@ -8,13 +10,15 @@ This works with multi_site. If you use [our fork](https://github.com/spanner/rad
 
 ## Latest
 
-Brought up to date with 0.8 and the latest `multi_site` and `reader` extensions. Some tidying up internally. Admin routes and links moved under /reader for tidiness.
+Refactored permissions and memberships to be more restful. Brought everything up to date with 0.8 and the latest `multi_site` and `reader` extensions. Some tidying up internally. Admin routes and links moved under /reader for tidiness.
+
+## Next
+
+Proper messaging with templates, preview and an inbox for readers.
 
 ## Status
 
 This has been brought across from a previous version that grouped users instead of working in the reader framework, so it's a mixture of the well-used and the just-invented, but the tests are fairly comprehensive. It's in use on a couple of biggish sites and seems fairly robust.
-
-Next: to restfulise the groups controller and improve the messaging interface with better records and presentation, message templates, spurious inbox, etc.
 
 ## Requirements
 

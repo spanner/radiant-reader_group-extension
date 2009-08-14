@@ -8,7 +8,6 @@ class Admin::GroupsController < Admin::ResourceController
   end
   
   # this should all be restfulised with a group messages controller (and model)
-  # and a group_invitations controller. 
   
   def message
     if request.post? && params[:confirm]
@@ -47,41 +46,6 @@ class Admin::GroupsController < Admin::ResourceController
     end
   end
   
-  def add_reader
-    @reader = Reader.find(params[:reader])
-    @group.readers << @reader unless @reader.is_in?(@group)
-    respond_to do |format|
-      format.html { redirect_to :action => 'show' }
-      format.js { render :partial => 'admin/groups/reader', :object => @reader }
-    end
-  end
-  
-  def remove_reader
-    @reader = Reader.find(params[:reader])
-    @group.readers.delete(@reader) if @reader.is_in?(@group)
-    respond_to do |format|
-      format.html { redirect_to :action => 'show' }
-      format.js { render :partial => 'admin/groups/reader', :object => @reader }
-    end
-  end
-  
-  def add_page
-    @page = Page.find(params[:page])
-    @group.pages << @page unless @page.has_group?(@group)
-    respond_to do |format|
-      format.html { redirect_to :action => 'show' }
-      format.js { render :partial => 'admin/groups/page', :object => @page }
-    end
-  end
-  
-  def remove_page
-    @page = Page.find(params[:page])
-    @group.pages.delete(@page) if @page.has_group?(@group)
-    respond_to do |format|
-      format.html { redirect_to :action => 'show' }
-      format.js { render :partial => 'admin/groups/page', :object => @page }
-    end
-  end
 
   private
   

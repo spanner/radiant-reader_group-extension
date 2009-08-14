@@ -13,12 +13,12 @@ class CreateGroups < ActiveRecord::Migration
       t.column :lock_version, :integer
     end
 
-    create_table :groups_readers, :id => false do |t|
+    create_table :memberships do |t|
       t.column :group_id, :integer
       t.column :reader_id, :integer
     end
 
-    create_table :groups_pages, :id => false do |t|
+    create_table :permissions do |t|
       t.column :group_id, :integer
       t.column :page_id, :integer
     end

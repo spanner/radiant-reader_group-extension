@@ -16,7 +16,8 @@ EOM
   end
   
   def choose_page(object, field, select_options={})
-    options = page_option_branch(Page.homepage)
+    root = Page.respond_to?(:homepage) ? Page.homepage : Page.find_by_parent_id(nil)
+    options = page_option_branch(root)
     options.unshift ['<default>', nil]
     select object, field, options, select_options
   end

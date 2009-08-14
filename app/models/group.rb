@@ -7,10 +7,10 @@ class Group < ActiveRecord::Base
   belongs_to :updated_by, :class_name => 'User'
   belongs_to :homepage, :class_name => 'Page'
 
-  has_many :group_permissions
-  has_many :pages, :through => :group_permissions
-  has_many :group_memberships
-  has_many :readers, :through => :group_memberships
+  has_many :permissions
+  has_many :pages, :through => :permissions
+  has_many :memberships
+  has_many :readers, :through => :memberships
   
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -30,6 +30,14 @@ class Group < ActiveRecord::Base
       self.send_message_to(reader, subject, message) 
     end
     count
+  end
+  
+  def permission_for(page)
+    self.permissions.for(page).first
+  end
+
+  def membership_for(reader)
+    self.memberships.for(reader).first
   end
 
 end

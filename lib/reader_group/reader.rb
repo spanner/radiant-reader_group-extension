@@ -2,8 +2,8 @@ module ReaderGroup::Reader
 
   def self.included(base)
     base.class_eval {
-      has_many :group_memberships
-      has_many :groups, :through => :group_memberships
+      has_many :memberships
+      has_many :groups, :through => :memberships
       include InstanceMethods
       alias_method_chain :activate!, :group
     }

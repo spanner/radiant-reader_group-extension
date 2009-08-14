@@ -4,20 +4,14 @@ class ReaderGroupExtension < Radiant::Extension
   version "0.8"
   description "Page access control for site readers and groups"
   url "http://spanner.org/radiant/reader_group"
-  
+
   define_routes do |map|
-    map.namespace :admin, :path_prefix => '/admin/readers', :member => { 
-      :remove => :get, 
+    map.namespace :admin, :path_prefix => 'admin/readers', :member => {
+      :remove => :get,
       :message => :any, 
-      :populate => :any
+      :populate => :any      
     } do |admin|
-      admin.resources :groups
-    end
-    map.with_options(:controller => 'admin/readers/groups') do |group|
-      group.add_group_reader '/admin/readers/groups/:id/add_reader/:reader', :action => 'add_reader'
-      group.remove_group_reader '/admin/readers/groups/:id/remove_reader/:reader', :action => 'remove_reader'
-      group.add_group_page '/admin/readers/groups/:id/add_page/:page', :action => 'add_page'
-      group.remove_group_page '/admin/readers/groups/:id/remove_page/:page', :action => 'remove_page'
+      admin.resources :groups, :has_many => [:memberships, :permissions]
     end
   end
   

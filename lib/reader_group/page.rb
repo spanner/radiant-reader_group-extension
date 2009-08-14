@@ -2,8 +2,8 @@ module ReaderGroup::Page
 
   def self.included(base)
     base.class_eval {
-      has_many :group_permissions
-      has_many :groups, :through => :group_permissions
+      has_many :permissions
+      has_many :groups, :through => :permissions
       include InstanceMethods
     }
   end
@@ -41,7 +41,7 @@ module ReaderGroup::Page
     def group_is_inherited?(group)
       return self.has_inherited_group?(group) && !self.has_group?(group)
     end
-
+    
     # any page with a group-marker is never cached
     # so that we can continue to return cache hits without care
     # this check is regrettably expensive
