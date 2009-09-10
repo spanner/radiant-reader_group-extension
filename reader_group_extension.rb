@@ -15,6 +15,10 @@ class ReaderGroupExtension < Radiant::Extension
     end
   end
   
+  extension_config do |config|
+    config.extension 'reader'
+  end
+  
   def activate
     Reader.send :include, ReaderGroup::Reader
     Page.send :include, ReaderGroup::Page
