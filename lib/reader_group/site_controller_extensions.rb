@@ -17,11 +17,7 @@ module ReaderGroup::SiteControllerExtensions
         show_page_without_group_check
       rescue ReaderGroup::PermissionDenied
         flash[:error] = "Sorry: you don't have permission to see that page."
-        if current_reader
-          render :template => 'site/not_allowed'
-        else
-          redirect_to reader_login_url
-        end
+        redirect_to reader_permission_denied_url
       end
         
       alias_method_chain :find_page, :group_check
