@@ -17,9 +17,7 @@
       %h2 Please check reader list
       %ul 
         %li Fields in red have validation problems. That usually means an email address or login needs checking. 
-        %li Fields in grey show that we already have that person here (based on their email address): in that case all we'll do is send an invitation to the 
-        = @group.name
-        group. Those people you can't edit here.
+        %li Fields in grey show that we already have that person here (based on their email address). You can still invite them but you can't edit their details here.
         %li Edit anything that needs it, uncheck the box next to anyone that you don't want to invite after all, and hit the 'invite these readers' button to send out messages.
       %table#import
         %thead

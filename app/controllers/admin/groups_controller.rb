@@ -35,8 +35,10 @@ class Admin::GroupsController < Admin::ResourceController
           r[:password] = r[:password_confirmation] = generate_password
           r[:activated_at] = Time.now
           reader = Reader.new(r)
+          reader.clear_password = r[:password]
           if reader.save!
             reader.groups << @group
+            reader.send_invitation_message
             @group.send_welcome_to(reader)
             notice += "#{reader.name} account created. "
           end
@@ -60,10 +62,12 @@ class Admin::GroupsController < Admin::ResourceController
     def readers_from_csv(readerdata)
       readers = []
       CSV::StringReader.parse(readerdata).each do |line|
-        values = line.collect {|value| value.gsub(/^ */, '').chomp}
-        r = Reader.find_or_create_by_email(values[1])
-        r.name ||= values[0]
-        r.login ||= values[2] || generate_login(values[0])
+        csv = line.collect {|value| value.gsub(/^ */, '').chomp}
+        input = {}
+        input[:honorific] = csv.shift if Radiant::Config['reader.use_honorifics?']
+        [:name, :email, :login].each {|field| input[field] = csv.shift}
+        r = Reader.find_by_email(input[:email]) || Reader.new(input)
+        r.login = generate_login(input[:name]) if r.login.blank?
         r.valid?    # so that errors can be shown on the confirmation form
         readers << r
       end
@@ -75,7 +79,7 @@ class Admin::GroupsController < Admin::ResourceController
       names = name.split
       initials = names.map {|n| n.slice(0,1)}
       initials.pop
-      initials.push(names.last).join('_')
+      initials.push(names.last).join('_').downcase
     end
 
     def generate_password(length=12)
