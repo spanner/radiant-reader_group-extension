@@ -38,7 +38,6 @@ class Admin::GroupsController < Admin::ResourceController
           if reader.save!
             reader.groups << @group
             reader.send_invitation_message
-            @group.send_welcome_to(reader)
             notice += "#{reader.name} account created. "
           end
         end
