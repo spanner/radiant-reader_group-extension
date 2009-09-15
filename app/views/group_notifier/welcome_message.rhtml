@@ -1,7 +1,7 @@
-Hello <%= @reader.honorific if Radiant::Config['reader.use_honorifics?'] %> <%= @reader.name %>,
+Hello <%= "#{@reader.honorific} " if Radiant::Config['reader.use_honorifics?'] %><%= @reader.name %>,
 
-Your account on <%= @site_title %> has been invited into the <%= @group.name %> group. You don't have to do anything to accept this invitation: next time you visit the site you will automatically gain access to the pages, discussions and downloads belonging to this group.
+This is an automatic message to let you know that your account on <%= @site_title %> has been added to the <%= @group.name %> group. You don't have to do anything to accept this invitation: when you visit the site you will automatically gain access to the pages, discussions and downloads belonging to this group.
 
-You should have received another message containing your login details.
+<% if @reader.inactive? %>You will have received another message containing your login instructions and an invitation to activate your account.
   
-If you have any questions, please contact the site administrator on <%= @sender %>
+<% end %>If you have any questions, please contact <%= @sender %> on <%= @sending_email %>: you can do that by replying to this message.

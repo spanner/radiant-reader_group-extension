@@ -12,13 +12,15 @@
   the usual group-welcome message.
 
 - if @readers
-  - form_for @group, :url => { :action => "populate" }, :html => {:id => 'confirmation_form', :method => 'post'} do
+  - form_for @group, :url => populate_admin_group_url(@group), :html => {:id => 'confirmation_form', :method => 'post'} do
     .form-area
       %h2 Please check reader list
-      %p 
-        Fields in red have validation problems. That usually means an email address or login is wonky. 
-        If we encounter an email address for which we already have a reader, we'll just invite that person into the group. Those fields have a grey background and can't be edited.
-        To omit someone from the import, just uncheck the box at the start of that row.
+      %ul 
+        %li Fields in red have validation problems. That usually means an email address or login needs checking. 
+        %li Fields in grey show that we already have that person here (based on their email address): in that case all we'll do is send an invitation to the 
+        = @group.name
+        group. Those people you can't edit here.
+        %li Edit anything that needs it, uncheck the box next to anyone that you don't want to invite after all, and hit the 'invite these readers' button to send out messages.
       %table#import
         %thead
           %tr
@@ -60,31 +62,30 @@
             - i = i + 1
 
       %p.buttons
-        Once you're sure:
-        = submit_tag 'Create these users and add them to the group', :name => 'confirm'
+        = submit_tag 'Invite these readers into the group', :name => 'confirm'
+        or 
+        = link_to 'start again', populate_admin_group_url(@group)
 
+- else 
+  - form_for @group, :url => { :action => "populate" }, :html => {:id => 'preview_form', :method => 'post'} do
+    .form-area
+      %h2 Invite new people
       %p
-        Or you can redo the list and try again below:
+        %label{:for => "readerlist"}
+          User List
+        - if Radiant::Config['reader.use_honorifics?']
+          title or rank, 
+        name, email, [login]
+        %br
+        = text_area_tag "readerlist", params[:readerlist], :class => "textarea", :style => "width: 100%; height: 240px;"
 
-- form_for @group, :url => { :action => "populate" }, :html => {:id => 'preview_form', :method => 'post'} do
-  .form-area
-    %h2 Invite new people
-    %p
-      %label{:for => "readerlist"}
-        User List
-      - if Radiant::Config['reader.use_honorifics?']
-        title or rank, 
-      name, email, [login]
-      %br
-      = text_area_tag "readerlist", params[:readerlist], :class => "textarea", :style => "width: 100%; height: 240px;"
-
-    %p.buttons
-      = submit_tag 'preview import'
-      or
-      = link_to "Cancel", admin_group_url(@group)
+      %p.buttons
+        = submit_tag 'preview import'
+        or
+        = link_to "Cancel", admin_group_url(@group)
     
-    %p
-      When you press the 'preview import' button, the list will be repeated back to you to show exactly what reader accounts we are going to create and/or invite into this group. 
-      You can make changes at that stage, but please check the list formatting carefully: be sure there are no commas other than where you want them and that the email addresses are correct.
+      %p
+        When you press the 'preview import' button, the list will be repeated back to you to show exactly what reader accounts we are going to create and/or invite into this group. 
+        You can make changes at that stage, but please check the list formatting carefully: be sure there are no commas other than where you want them and that the email addresses are correct.
       
   

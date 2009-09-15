@@ -18,24 +18,28 @@ class Admin::GroupsController < Admin::ResourceController
   end
 
   def populate
-    if request.post? && params[:import_reader]
+    if request.post? && params[:invite_reader] || params[:import_reader]
       notice = ''
-      params[:invite_reader].each do |i|
-        if reader = Reader.find_by_id(i)
-          reader.groups << @group unless reader.is_in?(@group)
-          @group.send_welcome_to(reader)
-          notice += "#{reader.name} added to group. "
+      if invites = params[:invite_reader]
+        invites.each do |i|
+          if reader = Reader.find_by_id(i)
+            reader.groups << @group unless reader.is_in?(@group)
+            @group.send_welcome_to(reader)
+            notice += "#{reader.name} added to group. "
+          end
         end
       end
-      params[:import_reader].each do |i|
-        r = params["reader_#{i}".to_sym]
-        r[:password] = r[:password_confirmation] = generate_password
-        r[:activated_at] = Time.now
-        reader = Reader.new(r)
-        if reader.save!
-          reader.groups << @group
-          @group.send_welcome_to(reader)
-          notice += "#{reader.name} account created. "
+      if imports = params[:import_reader]
+        imports.each do |i|
+          r = params["reader_#{i}".to_sym]
+          r[:password] = r[:password_confirmation] = generate_password
+          r[:activated_at] = Time.now
+          reader = Reader.new(r)
+          if reader.save!
+            reader.groups << @group
+            @group.send_welcome_to(reader)
+            notice += "#{reader.name} account created. "
+          end
         end
       end
       flash[:notice] = notice
