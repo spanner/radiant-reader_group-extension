@@ -33,7 +33,6 @@ class Admin::GroupsController < Admin::ResourceController
         imports.each do |i|
           r = params["reader_#{i}".to_sym]
           r[:password] = r[:password_confirmation] = generate_password
-          r[:activated_at] = Time.now
           reader = Reader.new(r)
           reader.clear_password = r[:password]
           if reader.save!
