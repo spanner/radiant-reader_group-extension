@@ -26,7 +26,7 @@ class CreateGroups < ActiveRecord::Migration
 
   def self.down
     drop_table :groups
-    drop_table :groups_readers
-    drop_table :groups_pages
+    drop_table :memberships
+    drop_table :permissions
   end
 end
