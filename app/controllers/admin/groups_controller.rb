@@ -17,6 +17,8 @@ class Admin::GroupsController < Admin::ResourceController
     end
   end
 
+  # and a group-invitations controller,while you're about it
+
   def populate
     if request.post? && params[:invite_reader] || params[:import_reader]
       notice = ''
@@ -49,40 +51,39 @@ class Admin::GroupsController < Admin::ResourceController
       response_for :singular
     end
   end
-  
 
-  private
-  
-    def find_group
-      @group = Group.find(params[:id])
-    end
+private
 
-    def readers_from_csv(readerdata)
-      readers = []
-      CSV::StringReader.parse(readerdata).each do |line|
-        csv = line.collect {|value| value.gsub(/^ */, '').chomp}
-        input = {}
-        input[:honorific] = csv.shift if Radiant::Config['reader.use_honorifics?']
-        [:name, :email, :login].each {|field| input[field] = csv.shift}
-        r = Reader.find_by_email(input[:email]) || Reader.new(input)
-        r.login = generate_login(input[:name]) if r.login.blank?
-        r.valid?    # so that errors can be shown on the confirmation form
-        readers << r
-      end
-      readers
-    end
+  def find_group
+    @group = Group.find(params[:id])
+  end
 
-    def generate_login(name)
-      logger.warn "... #{name}"
-      names = name.split
-      initials = names.map {|n| n.slice(0,1)}
-      initials.pop
-      initials.push(names.last).join('_').downcase
+  def readers_from_csv(readerdata)
+    readers = []
+    CSV::StringReader.parse(readerdata).each do |line|
+      csv = line.collect {|value| value.gsub(/^ */, '').chomp}
+      input = {}
+      input[:honorific] = csv.shift if Radiant::Config['reader.use_honorifics?']
+      [:name, :email, :login].each {|field| input[field] = csv.shift}
+      r = Reader.find_by_email(input[:email]) || Reader.new(input)
+      r.login = generate_login(input[:name]) if r.login.blank?
+      r.valid?    # so that errors can be shown on the confirmation form
+      readers << r
     end
+    readers
+  end
 
-    def generate_password(length=12)
-      chars = ("a".."z").to_a + ("A".."Z").to_a + ("1".."9").to_a
-      Array.new(length, '').collect{chars[rand(chars.size)]}.join
-    end
-  
+  def generate_login(name)
+    logger.warn "... #{name}"
+    names = name.split
+    initials = names.map {|n| n.slice(0,1)}
+    initials.pop
+    initials.push(names.last).join('_').downcase
+  end
+
+  def generate_password(length=12)
+    chars = ("a".."z").to_a + ("A".."Z").to_a + ("1".."9").to_a
+    Array.new(length, '').collect{chars[rand(chars.size)]}.join
+  end
+
 end

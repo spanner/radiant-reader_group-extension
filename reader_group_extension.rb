@@ -22,6 +22,7 @@ class ReaderGroupExtension < Radiant::Extension
   def activate
     Reader.send :include, ReaderGroup::Reader
     Page.send :include, ReaderGroup::Page
+    ReaderNotifier.send :include, ReaderGroup::NotifierExtensions
     SiteController.send :include, ReaderGroup::SiteControllerExtensions
     Site.send :has_many, :groups if defined? Site
     UserActionObserver.instance.send :add_observer!, Group 
