@@ -7,6 +7,7 @@ class Group < ActiveRecord::Base
   belongs_to :updated_by, :class_name => 'User'
   belongs_to :homepage, :class_name => 'Page'
 
+  has_many :messages, :class_name => 'GroupMessage'
   has_many :permissions
   has_many :pages, :through => :permissions
   has_many :memberships
@@ -21,15 +22,6 @@ class Group < ActiveRecord::Base
 
   def send_message_to(reader, subject, message)
     ReaderNotifier::deliver_group_message(reader, self, subject, message)
-  end
-
-  def send_message_to_all(subject, message)
-    count = 0
-    self.readers.each do |reader| 
-      count += 1
-      self.send_message_to(reader, subject, message) 
-    end
-    count
   end
   
   def permission_for(page)

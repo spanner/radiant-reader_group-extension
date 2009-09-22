@@ -1,0 +1,33 @@
+- include_stylesheet('admin/group')
+%h1 
+  Populate:
+  = link_to @group.name, admin_group_url(@group)
+  = render :partial => 'admin/groups/actions', :locals => {:group => @group}
+
+%p 
+  This is a quick way to bring a group of people into the system in one go. 
+  Enter a comma-separated list of names and email addresses below (one person per line) 
+  and each of those people will be invited into the system, issued an account with a vaguely adequate username 
+  and an entirely random password. Anyone who is already here will just be added to the group. All will be sent
+  the usual group-welcome message.
+
+- form_for :group, @group, :url => admin_group_group_invitations_url(@group), :html => {:id => 'preview_form', :method => 'post'} do
+  .form-area
+    %p
+      %label{:for => "readerlist"}
+        List of people
+      - if Radiant::Config['reader.use_honorifics?']
+        title or rank, 
+      name, email, [login]
+      %br
+      = text_area_tag "readerlist", params[:readerlist], :class => "textarea", :style => "width: 100%; height: 240px;"
+
+    %p.buttons
+      = submit_tag 'preview import'
+      or
+      = link_to "Cancel", admin_group_url(@group)
+  
+    %p
+      When you press the 'preview import' button, the list will be repeated back to you to show exactly what reader accounts we are going to create and/or invite into this group. 
+      You can make changes at that stage, but please check the list formatting carefully: be sure there are no commas other than where you want them and that the email addresses are correct.
+    

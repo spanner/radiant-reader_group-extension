@@ -1,0 +1,58 @@
+- include_stylesheet('admin/group')
+
+%h1 
+  Populate:
+  = link_to @group.name, admin_group_url(@group)
+  = render :partial => 'admin/groups/actions', :locals => {:group => @group}
+
+- form_for :group, @group, :url => admin_group_group_invitations_url(@group), :html => {:id => 'confirmation_form', :method => 'post'} do
+  .form-area
+    %h2 Please check the invitation list
+    %ul 
+      %li Fields in red have validation problems. That usually means an email address or login needs checking. Hover your mouse pointer over the affected field to find out more.
+      %li Fields in grey show that we already have that person here (based on their email address). You can still invite them but you can't edit their details here.
+      %li Edit anything that needs it, uncheck the box next to anyone that you don't want to invite after all, and hit the 'invite these readers' button to send out messages.
+    %table#import
+      %thead
+        %tr
+          %th
+          - if Radiant::Config['reader.use_honorifics?']
+            %th Title or rank
+          %th Full name
+          %th Email
+          %th Login
+      %tbody
+        - i = 0
+        - @readers.each do |reader| 
+          - if reader.new_record?
+            %tr.import
+              %td
+                = check_box_tag "import_reader[]", i, {:checked => true}
+              - if Radiant::Config['reader.use_honorifics?']
+                %td 
+                  = text_field_tag "reader_#{i}[honorific]", reader.honorific, :class => "preview#{ ' with_error' if reader.errors.on(:honorific)}", :title => reader.errors.on(:honorific)
+              %td 
+                = text_field_tag "reader_#{i}[name]", reader.name, :class => "preview#{ ' with_error' if reader.errors.on(:name)}", :title => reader.errors.on(:name)
+              %td 
+                = text_field_tag "reader_#{i}[email]", reader.email, :class => "preview#{ ' with_error' if reader.errors.on(:email)}", :title => reader.errors.on(:email)
+              %td 
+                = text_field_tag "reader_#{i}[login]", reader.login, :class => "preview#{ ' with_error' if reader.errors.on(:login)}", :title => reader.errors.on(:login)
+          - else
+            %tr.invite
+              %td
+                = check_box_tag "invite_reader[]", reader.id, {:checked => true}
+              - if Radiant::Config['reader.use_honorifics?']
+                %td
+                  = text_field_tag "reader_#{i}[honorific]", reader.honorific, :class => "preview#{ ' with_error' if reader.errors.on(:honorific)}", :title => reader.errors.on(:honorific), :disabled => true
+              %td 
+                = text_field_tag "reader_#{i}[name]", reader.name, :class => "preview#{ ' with_error' if reader.errors.on(:name)}", :title => reader.errors.on(:name), :disabled => true
+              %td 
+                = text_field_tag "reader_#{i}[email]", reader.email, :class => "preview#{ ' with_error' if reader.errors.on(:email)}", :title => reader.errors.on(:email), :disabled => true
+              %td 
+                = text_field_tag "reader_#{i}[login]", reader.login, :class => "preview#{ ' with_error' if reader.errors.on(:login)}", :title => reader.errors.on(:login), :disabled => true
+          - i = i + 1
+
+    %p.buttons
+      = submit_tag 'Invite these readers into the group', :name => 'confirm'
+      or 
+      = link_to 'start again', new_admin_group_group_invitation_url(@group)
