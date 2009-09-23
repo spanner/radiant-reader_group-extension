@@ -7,9 +7,7 @@ class ReaderGroupExtension < Radiant::Extension
 
   define_routes do |map|
     map.namespace :admin, :path_prefix => 'admin/readers' do |admin|
-      admin.resources :groups, :has_many => [:memberships, :permissions, :group_invitations] do |group|
-        group.resources :group_messages, :member => [:preview, :deliver]
-      end
+      admin.resources :groups, :has_many => [:memberships, :permissions, :group_invitations]
     end
   end
   
@@ -21,11 +19,10 @@ class ReaderGroupExtension < Radiant::Extension
     Reader.send :include, ReaderGroup::Reader                                     # defines group associations
     Page.send :include, ReaderGroup::Page                                         # group associations and visibility decisions
     ReaderNotifier.send :include, ReaderGroup::NotifierExtensions                 # a couple of new message types
+    Message.send :include, ReaderGroup::MessageExtensions                   # group association
     SiteController.send :include, ReaderGroup::SiteControllerExtensions           # access control based on group membership
-    Page.send :include, ReaderGroup::GroupMessageTags                             # a few radius tags for use when sending messages
 
     UserActionObserver.instance.send :add_observer!, Group 
-    UserActionObserver.instance.send :add_observer!, GroupMessage
     ReaderGroup::Exception
 
     unless defined? admin.group                                                   # to avoid duplicate partials
@@ -35,7 +32,7 @@ class ReaderGroupExtension < Radiant::Extension
       admin.reader.edit.add :form, "reader_groups", :before => "edit_notes"
     end
 
-    admin.tabs['Readers'].add_link('reader groups', '/admin/readers/groups')      # add_link is defined by the submenu extension
+    admin.tabs['Readers'].add_link('groups', '/admin/readers/groups')      # add_link is defined by the submenu extension
   end
   
   def deactivate

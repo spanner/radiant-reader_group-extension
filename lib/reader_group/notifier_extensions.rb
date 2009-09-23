@@ -1,17 +1,18 @@
 module ReaderGroup::NotifierExtensions
   
-  def group_welcome_message( reader, group )
-    setup_email(reader)
-    @subject = "Welcome to the #{group.name} group"
-    @body[:group] = group
-  end
+  def self.included(base)
+    base.class_eval {
+      def group_welcome_message( reader, group )
+        setup_email(reader)
+        @subject = "Welcome to the #{group.name} group"
+        @body[:group] = group
+      end
 
-  def group_message( reader, group_message )
-    setup_email(reader)
-    @subject = group_message.subject
-    @body[:message] = group_message.filtered_body
-    @body[:group] = group_message.group
-    @body[:sender] = group_message.created_by
+      def message_with_group( reader, message )
+        message_without_group( reader, message )
+        @body[:group] = message.group
+      end
+      alias_method_chain :message, :group      
+    }
   end
-
 end

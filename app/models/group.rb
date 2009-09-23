@@ -20,10 +20,6 @@ class Group < ActiveRecord::Base
     ReaderNotifier::deliver_group_welcome_message(reader, self) if reader.activated?     # welcomes will be triggered again on activation
   end
 
-  def send_message_to(reader, subject, message)
-    ReaderNotifier::deliver_group_message(reader, self, subject, message)
-  end
-  
   def permission_for(page)
     self.permissions.for(page).first
   end
