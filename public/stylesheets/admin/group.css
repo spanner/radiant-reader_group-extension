@@ -12,7 +12,7 @@
 
 #content table#groups td.group {
   padding: 10px;
-  width: 50%;
+  width: 35%;
 }
 
 #content table#groups td.group a {
@@ -65,14 +65,26 @@
 }
 
 #content #group_pages {
-  width: 60%;
+  width: 35%;
   float: left;
 }
 
 #content #group_people {
-  width: 30%;
-  margin: 0 5%;
+  width: 25%;
+  margin: 0 2%;
   float: left;
+}
+
+#content #group_messages {
+  width: 25%;
+  margin: 0 2%;
+  float: left;
+}
+
+#content #group_messages ul {
+  list-style: square;
+  font-size: 85%;
+  padding-left: 14px;
 }
 
 #content div.stretcher {
