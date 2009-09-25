@@ -1,0 +1,9 @@
+- if @message.group
+  %p
+    This message belongs to the 
+    = link_to @message.group.name, admin_group_url(@message.group)
+    group and can only be sent to (or seen by) its 
+    %strong
+      = @message.group.readers.count
+      = pluralize( @message.group.readers.count, 'member') + '.'
+  
