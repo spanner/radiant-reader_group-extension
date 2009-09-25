@@ -32,7 +32,7 @@ module ReaderGroup::Reader
     def activate_with_group!
       send_group_welcomes if activate_without_group!
     end
-    
+        
   protected
     def send_group_welcomes
       groups.each { |g| g.send_welcome_to(self) }

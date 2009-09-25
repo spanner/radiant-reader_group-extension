@@ -7,7 +7,7 @@ class Group < ActiveRecord::Base
   belongs_to :updated_by, :class_name => 'User'
   belongs_to :homepage, :class_name => 'Page'
 
-  has_many :messages, :class_name => 'GroupMessage'
+  has_many :messages
   has_many :permissions
   has_many :pages, :through => :permissions
   has_many :memberships
@@ -15,9 +15,16 @@ class Group < ActiveRecord::Base
   
   validates_presence_of :name
   validates_uniqueness_of :name
-    
+  
+  def url
+    homepage.url if homepage
+  end
+  
   def send_welcome_to(reader)
-    ReaderNotifier::deliver_group_welcome_message(reader, self) if reader.activated?     # welcomes will be triggered again on activation
+    if reader.activated?                                        # welcomes will be triggered again on activation
+      message = messages.find_by_function('group_welcome')      # only if a group_welcome message exists *belonging to this group*
+      message.deliver_to(reader) if message                     # the belonging also allows us to mention the group in the message
+    end
   end
 
   def permission_for(page)
