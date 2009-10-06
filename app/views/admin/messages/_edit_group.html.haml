@@ -7,8 +7,5 @@
   - fields_for @message do |f|
 
     %p.group
-      = f.label :group_id, "Assign message to group?"
-      %br
-      = f.select :group_id, groups.map { |g| [g.name, g.id] }, {:include_blank => true}, {:class => 'standard'}
-      %br
-      %span.formnote Choose a group here and this message will only be sendable to members of that group. Leave blank for general use.
+      = f.label :group_id, "Group:"
+      = f.select :group_id, groups.map { |g| [g.name, g.id] }, {:include_blank => true}

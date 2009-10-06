@@ -1,4 +1,4 @@
-module ReaderGroup::SiteControllerExtensions
+module SiteControllerExtensions
   
   def self.included(base)
     base.class_eval {

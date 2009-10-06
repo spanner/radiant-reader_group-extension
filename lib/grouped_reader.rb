@@ -1,4 +1,4 @@
-module ReaderGroup::Reader
+module GroupedReader
 
   def self.included(base)
     base.class_eval {

@@ -1,4 +1,4 @@
-module ReaderGroup::NotifierExtensions
+module ReaderNotifierExtensions
   
   def self.included(base)
     base.class_eval {

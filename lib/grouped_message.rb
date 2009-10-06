@@ -1,4 +1,4 @@
-module ReaderGroup::Message
+module GroupedMessage
 
   def self.included(base)
     base.class_eval {
