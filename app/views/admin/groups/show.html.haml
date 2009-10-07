@@ -9,7 +9,6 @@
 
 #group_pages
   %h2
-    = @group.name
     pages
   %p
     Selected pages are only visible to this group.
@@ -20,7 +19,6 @@
 
 #group_people
   %h2
-    = @group.name
     members
   %p
     = link_to "Invite group members", new_admin_group_group_invitation_url(@group)
@@ -31,14 +29,13 @@
 
 #group_messages
   %h2
-    = @group.name
     messages
   %p
     = link_to "Send a message", new_admin_group_message_url(@group)
   %ul
     - @group.messages.each do |message|
       %li
-        = link_to message.subject, edit_admin_message_url(message), :class => message.delivered? ? "sent" : "unsent"
+        = link_to message.subject, admin_message_url(message), :class => message.delivered? ? "sent" : "unsent"
 
 #footnotes
   %p

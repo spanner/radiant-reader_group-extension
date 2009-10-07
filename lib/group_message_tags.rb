@@ -32,7 +32,7 @@ module GroupMessageTags
     <pre><code><r:group:if_messages>...</r:group:if_messages /></code></pre>
   }
   tag "group:if_messages" do |tag|
-    tag.expand if tag.locals.group.messages.any?
+    tag.expand if tag.locals.group.messages.ordinary.published.any?
   end
 
   desc %{
@@ -41,7 +41,7 @@ module GroupMessageTags
     <pre><code><r:group:unless_messages>...</r:group:unless_messages /></code></pre>
   }
   tag "group:unless_messages" do |tag|
-    tag.expand unless tag.locals.group.messages.any?
+    tag.expand unless tag.locals.group.messages.ordinary.published.any?
   end
 
   desc %{
