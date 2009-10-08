@@ -10,13 +10,9 @@ This works with multi_site. If you use [our fork](https://github.com/spanner/rad
 
 ## Latest
 
-* Improvements to the population and message functions. Still haven't factored them out of the groups controller, though.
-* HTML mail using radiant layout templates (see changes in [share_layouts](http://github.com/spanner/radiant-share-layouts-extension))
-* Refactored permissions and memberships to be more restful. Brought everything up to date with 0.8 and the latest `multi_site` and `reader` extensions. Some tidying up internally. Admin routes and links moved under /reader for tidiness.
-
-## Next
-
-Proper messaging with templates, preview and an inbox for readers.
+* group-mailer moved into Reader as reader-mailer, now using radiant layouts for styled group mailouts
+* group access control consolidated in `is_grouped` function to simplify maintenance of other extensions
+* invitations factored out, made reasonably restful
 
 ## Status
 
