@@ -38,6 +38,7 @@ module GroupedPage
         self.groups + self.parent.inherited_groups
       end
     end
+    alias permitted_groups inherited_groups
 
     def has_group?(group)
       return self.groups.include?(group)

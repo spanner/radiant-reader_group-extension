@@ -12,7 +12,7 @@ module GroupedReader
   module InstanceMethods     
   
     def can_see? (this)
-      permitted_groups = this.inherited_groups
+      permitted_groups = this.permitted_groups
       permitted_groups.empty? or in_any_of_these_groups?(permitted_groups)
     end
       
@@ -21,7 +21,7 @@ module GroupedReader
     end
   
     def is_in? (group)
-      groups.include? group
+      groups.include?(group)
     end
     
     # has_group? is ambiguous: with no argument it means 'is this reader grouped at all?'.

@@ -28,6 +28,9 @@ class ReaderGroupExtension < Radiant::Extension
   end
   
   def activate
+    ActiveRecord::Base.send :include, GroupedModel                                # is_grouped mechanism for any model that can belong_to a group
+                                                                                  # here it's only used for messages: the other associations are habtm
+    
     Reader.send :include, GroupedReader                                           # defines group associations
     Page.send :include, GroupedPage                                               # group associations and visibility decisions
     Message.send :include, GroupedMessage                                         # group association
