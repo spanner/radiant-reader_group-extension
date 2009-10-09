@@ -70,7 +70,7 @@ module GroupedModel
   protected
 
     def get_group
-      if self.class.group_donor && source_group = self.send(self.class.group_source)
+      if self.class.group_donor && source_group = self.send(self.class.group_donor)
         unless source_group == group 
           self.group = source_group
           self.save(false)
