@@ -72,7 +72,6 @@ module GroupedModel
     def get_group
       if self.class.group_donor && group_source = self.send(self.class.group_donor)
         self.group = group_source.group
-        self.save(false)
       end
     end
 
