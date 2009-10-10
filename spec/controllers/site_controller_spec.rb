@@ -24,10 +24,10 @@ describe SiteController do
     end
     
     describe "getting a grouped page" do
-      it "should redirect to permission-denied" do
+      it "should redirect to login" do
         get :show_page, :url => 'parent/'
         response.should be_redirect
-        response.should redirect_to(reader_permission_denied_url)
+        response.should redirect_to(reader_login_url)
       end
     end
   end
