@@ -16,6 +16,8 @@ class Group < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   
+  named_scope :with_home_page, { :conditions => "homepage_id IS NOT NULL", :include => :homepage }
+  
   def url
     homepage.url if homepage
   end

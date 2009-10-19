@@ -8,9 +8,20 @@
   This is a quick way to bring a group of people into the system in one go. 
   Enter a comma-separated list of names and email addresses below (one person per line) 
   and each of those people will be invited into the system, issued an account with a vaguely adequate username 
-  and an entirely random password. Anyone who is already here will just be added to the group. All will be sent
-  the usual group-welcome message.
+  and an entirely random password. Anyone who is already here will just be added to the group.
 
+- if message = @group.messages.find_by_function('invitation')
+  %p
+    %strong
+      This group has its own 
+      = link_to "invitation message", admin_message_url(message)
+      that you might want to check before going any further.
+- else
+  - message = Message.functional('welcome')
+  %p
+    This group doesn't have its own invitation message, so any new people will receive the 
+    = link_to("standard invitation", admin_message_url(message)) + '.'
+    
 - form_for :group, @group, :url => admin_group_group_invitations_url(@group), :html => {:id => 'preview_form', :method => 'post'} do
   .form-area
     %p

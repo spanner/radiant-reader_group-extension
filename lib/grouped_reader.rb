@@ -12,6 +12,12 @@ module GroupedReader
 
   module InstanceMethods     
   
+    def find_homepage
+      if homegroup = groups.with_home_page.first
+        homegroup.homepage
+      end
+    end
+  
     def can_see? (this)
       permitted_groups = this.permitted_groups
       permitted_groups.empty? or in_any_of_these_groups?(permitted_groups)
