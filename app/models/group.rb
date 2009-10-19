@@ -23,7 +23,7 @@ class Group < ActiveRecord::Base
   def send_welcome_to(reader)
     if reader.activated?                                        # welcomes will be triggered again on activation
       message = messages.find_by_function('group_welcome')      # only if a group_welcome message exists *belonging to this group*
-      message.deliver_to(reader) if message                     # the belonging also allows us to mention the group in the message
+      message.deliver_to(reader) if message                     # (the belonging also allows us to mention the group in the message)
     end
   end
 

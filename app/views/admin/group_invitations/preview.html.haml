@@ -10,8 +10,8 @@
     %h2 Please check the invitation list
     %ul 
       %li Fields in red have validation problems. That usually means an email address or login needs checking. Hover your mouse pointer over the affected field to find out more.
-      %li Fields in grey show that we already have that person here (based on their email address). You can still invite them but you can't edit their details here.
-      %li Edit anything that needs it, uncheck the box next to anyone that you don't want to invite after all, and hit the 'invite these readers' button to send out messages.
+      %li Fields in grey show that we already have that person here (based on their email address). You can still bring them into the group but you can't edit their details here.
+      %li Edit anything that needs it, uncheck the box next to anyone that you don't want to invite after all, and hit the 'invite these people' button to send out messages.
     %table#import
       %thead
         %tr
@@ -53,6 +53,6 @@
           - i = i + 1
 
     %p.buttons
-      = submit_tag 'Invite these readers into the group', :name => 'confirm'
+      = submit_tag 'Invite these people into the group', :name => 'confirm', :class => 'button'
       or 
       = link_to 'start again', new_admin_group_group_invitation_url(@group)

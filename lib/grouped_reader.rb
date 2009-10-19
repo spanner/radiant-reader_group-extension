@@ -6,6 +6,7 @@ module GroupedReader
       has_many :groups, :through => :memberships
       include InstanceMethods
       alias_method_chain :activate!, :group
+      alias_method_chain :send_functional_message, :group
     }
   end
 
@@ -29,11 +30,25 @@ module GroupedReader
       group.nil? ? groups.any? : is_in?(group)
     end
     
+    # if group-welcome messages exist for this reader's memberships, they will be sent on activation
     def activate_with_group!
       send_group_welcomes if activate_without_group!
     end
-        
+
+    # there may be versions of the functional (eg welcome) messages specific to a group
+    # (which has to be passed through, so this currently only happens when sending out group invitations but ought to be useful elsewhere too)
+    def send_functional_message_with_group(function, group=nil)
+      reset_perishable_token!
+      message = Message.functional(function, group)   # returns the standard functional message if no group is supplied, or no group message exists
+      message.deliver_to(self) if message
+    end
+    
+    def send_group_invitation_message(group=nil)
+      send_functional_message_with_group('invitation', group)
+    end
+
   protected
+
     def send_group_welcomes
       groups.each { |g| g.send_welcome_to(self) }
     end

@@ -23,7 +23,7 @@
       = text_area_tag "readerlist", params[:readerlist], :class => "textarea", :style => "width: 100%; height: 240px;"
 
     %p.buttons
-      = submit_tag 'preview import'
+      = submit_tag 'preview import', :class => 'button'
       or
       = link_to "Cancel", admin_group_url(@group)
   

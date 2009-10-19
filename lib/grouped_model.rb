@@ -16,8 +16,11 @@ module GroupedModel
         extend GroupedModel::GroupedClassMethods
         include GroupedModel::GroupedInstanceMethods
       }
+      
       belongs_to :group
       named_scope :ungrouped, {:conditions => 'group_id IS NULL'}
+      named_scope :for_group, lambda { |g| {:conditions => ["group_id = ?", g]} }
+
       Group.send(:has_many, self.to_s.pluralize.underscore.intern)
 
       before_create :get_group

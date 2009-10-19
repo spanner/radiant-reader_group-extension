@@ -4,11 +4,31 @@ module GroupedMessage
     base.class_eval {
       is_grouped
 
-      def possible_readers_with_group
-        group ? group.readers : possible_readers_without_group
-      end
+      include InstanceMethods
       alias_method_chain :possible_readers, :group
+      
+      extend ClassMethods
+      class << self
+        alias_method_chain :functional, :group
+      end
     }
+  end
+  
+  module InstanceMethods
+    def possible_readers_with_group
+      group ? group.readers : possible_readers_without_group
+    end
+  end
+  
+  module ClassMethods
+    def functional_with_group(function, group=nil)
+      messages = published.for_function(function)
+      if group && messages.for_group(group).any?
+        messages.for_group(group).first
+      else
+        messages.ungrouped.first
+      end
+    end
   end
 
 end
