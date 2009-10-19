@@ -10,7 +10,7 @@
   and each of those people will be invited into the system, issued an account with a vaguely adequate username 
   and an entirely random password. Anyone who is already here will just be added to the group.
 
-- if message = @group.messages.find_by_function('invitation')
+- if message = @group.messages.for_function('invitation').first
   %p
     %strong
       This group has its own 

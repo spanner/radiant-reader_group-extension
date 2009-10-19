@@ -42,7 +42,7 @@ class ReaderGroupExtension < Radiant::Extension
     ReaderSessionsController.send :include, ReaderSessionsControllerExtensions        # sends newly logged-in readers to a group home page if one can be found
     ReaderActivationsController.send :include, ReaderActivationsControllerExtensions  # sends newly activated readers to a group home page if one can be found
     UserActionObserver.instance.send :add_observer!, Group                            # the usual date-stamping and ownership
-
+    MessageFunction.add('group_welcome', 'Group-membership notification')
     Page.send :include, GroupMessageTags                                              # extra tags for talking about groups in mailouts
 
     unless defined? admin.group                                                       # to avoid duplicate partials
