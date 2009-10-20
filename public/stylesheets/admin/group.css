@@ -192,6 +192,10 @@ span.group_actions a img {
   opacity: 1;
 }
 
-
+p.haserror {
+  border-left: 4px solid #c00;
+  padding-left: 12px;
+  color: #c00 !important;
+}
 
 
