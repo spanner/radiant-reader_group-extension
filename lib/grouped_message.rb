@@ -16,7 +16,7 @@ module GroupedMessage
   
   module InstanceMethods
     def possible_readers_with_group
-      group ? group.readers : possible_readers_without_group
+      group ? group.readers.active : possible_readers_without_group
     end
   end
   
