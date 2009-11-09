@@ -6,6 +6,7 @@ module GroupedMessage
 
       include InstanceMethods
       alias_method_chain :possible_readers, :group
+      alias_method_chain :inactive_readers, :group
       
       extend ClassMethods
       class << self
@@ -17,6 +18,9 @@ module GroupedMessage
   module InstanceMethods
     def possible_readers_with_group
       group ? group.readers.active : possible_readers_without_group
+    end
+    def inactive_readers_with_group
+      group ? group.readers.inactive : inactive_readers_without_group
     end
   end
   
