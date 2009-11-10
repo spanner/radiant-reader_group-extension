@@ -20,7 +20,11 @@ module GroupedModel
       belongs_to :group
       named_scope :ungrouped, {:conditions => 'group_id IS NULL'}
       named_scope :for_group, lambda { |g| {:conditions => ["group_id = ?", g]} }
-
+      named_scope :visible_to, lambda { |reader| 
+        groups = reader.nil? ? [] : reader.groups
+        {:conditions => ["group_id IS NULL OR group_id IN(?)", groups.map(&:id).join(',')]} 
+      }
+      
       Group.send(:has_many, self.to_s.pluralize.underscore.intern)
 
       before_create :get_group
