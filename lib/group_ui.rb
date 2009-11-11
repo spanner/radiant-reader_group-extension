@@ -7,6 +7,7 @@ module GroupUI
       alias_method :groups, :group
 
       def load_default_regions_with_group
+        load_default_regions_without_group
         @group = load_default_group_regions
       end
 
