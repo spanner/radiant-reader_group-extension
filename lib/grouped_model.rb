@@ -15,6 +15,15 @@ module GroupedModel
       class_eval {
         extend GroupedModel::GroupedClassMethods
         include GroupedModel::GroupedInstanceMethods
+
+        def visible_to?(reader)
+          return true unless group
+          return false unless reader
+          return true if reader.is_user?
+          return true if reader.is_in?(group)
+          return false
+        end
+
       }
       
       belongs_to :group
@@ -58,18 +67,11 @@ module GroupedModel
   end
 
   module GroupedInstanceMethods
+
     def visible?
       !!group
     end
 
-    def visible_to?(reader)
-      return true unless group
-      return false unless reader
-      return true if reader.is_user?
-      return true if reader.is_in?(group)
-      return false
-    end
-    
     def permitted_groups
       [group]
     end
