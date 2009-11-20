@@ -1,7 +1,7 @@
 - if homepage = current_reader.find_homepage
   %p
     Would you like to go straight to the 
-    = link_to homepage.name, homepage.url
+    = link_to homepage.title, homepage.url
     page?
 
 - elsif session[:return_to]
