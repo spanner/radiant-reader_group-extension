@@ -18,15 +18,17 @@ EOM
   def choose_page(object, field, select_options={})
     root = Page.respond_to?(:homepage) ? Page.homepage : Page.find_by_parent_id(nil)
     options = page_option_branch(root)
-    options.unshift ['<default>', nil]
+    options.unshift ['<none>', nil]
     select object, field, options, select_options
   end
     
   def page_option_branch(page, depth=0)
     options = []
-    options << ["#{". " * depth}#{h(page.title)}", page.id]
-    page.children.each do |child|
-      options += page_option_branch(child, depth + 1)
+    unless page.title.first == '_'
+      options << ["#{". " * depth}#{h(page.title)}", page.id]
+      page.children.each do |child|
+        options += page_option_branch(child, depth + 1)
+      end
     end
     options
   end

@@ -10,8 +10,8 @@ module ReaderGroup
 end
 
 class ReaderGroupExtension < Radiant::Extension
-  version "0.8"
-  description "Page access control for site readers and groups"
+  version "0.81"
+  description "Page (and other) access control for site readers and groups"
   url "http://spanner.org/radiant/reader_group"
 
   define_routes do |map|
@@ -37,6 +37,7 @@ class ReaderGroupExtension < Radiant::Extension
 
     ReaderNotifier.send :include, ReaderNotifierExtensions                            # a couple of new message types
     SiteController.send :include, SiteControllerExtensions                            # access control based on group membership
+    ReadersController.send :include, ReadersControllerExtensions                      # offer subscription to public groups
     MessagesController.send :include, MessagesControllerExtensions                    # listing and display of group messages
     Admin::MessagesController.send :include, AdminMessagesControllerExtensions        # supports specification of group on newing of message
     ReaderSessionsController.send :include, ReaderSessionsControllerExtensions        # sends newly logged-in readers to a group home page if one can be found
@@ -44,6 +45,7 @@ class ReaderGroupExtension < Radiant::Extension
     UserActionObserver.instance.send :add_observer!, Group                            # the usual date-stamping and ownership
     MessageFunction.add('group_welcome', 'Group-membership notification')
     Page.send :include, GroupMessageTags                                              # extra tags for talking about groups in mailouts
+
 
     unless defined? admin.group                                                       # to avoid duplicate partials
       Radiant::AdminUI.send :include, GroupUI

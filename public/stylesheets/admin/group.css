@@ -111,7 +111,7 @@
 	line-height: 16px;
 }
 
-#content .form-area p.description {
+#content .form-area p.description, #content .form-area p.invitation {
   margin-top: 10px;
 }
 
@@ -170,13 +170,13 @@
   text-decoration: none;
 }
 
-.checked { background-image: url(/images/admin/chk_on.png); }
-.unchecked { background-image: url(/images/admin/chk_off.png); }
-.selected { background-image: url(/images/admin/rdo_on.png); }
-.unselected { background-image: url(/images/admin/rdo_off.png); }
-.waiting { background-image: url(/images/admin/spinner.gif); }
-.failed { background-image: url(/images/admin/error.png); }
-.inherited { background-image: url(/images/admin/chk_auto.png); }
+a.checked { background-image: url(/images/admin/chk_on.png); }
+a.unchecked { background-image: url(/images/admin/chk_off.png); }
+a.selected { background-image: url(/images/admin/rdo_on.png); }
+a.unselected { background-image: url(/images/admin/rdo_off.png); }
+a.waiting { background-image: url(/images/admin/spinner.gif); }
+a.failed { background-image: url(/images/admin/error.png); }
+a.inherited { background-image: url(/images/admin/chk_auto.png); }
 
 .checked a, .selected a { color: #5da454; }
 .unchecked a, .unselected a { color: #ccc; font-weight: normal;}

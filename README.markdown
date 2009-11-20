@@ -1,16 +1,18 @@
 # Reader Group Extension
 
-The basic purpose of this extension is to control access to pages in your public site. It allows you to create a group of readers, and to make pages visible only to selected groups. It also provides a useful - but currently rather basic - group-messaging interface and a batch-import function for inviting readers.
+The basic purpose of this extension is to control access to pages in your public site. It allows you to create a group of readers, and to make pages 9and other site elements) visible only to selected groups. It also provides a useful - and now quite shiny - group-messaging interface and a batch-import function for inviting readers.
 
 In combination with our other extensions it also lets you control access to forums, downloads and assets. I hope other people will find the framework useful and apply it to their own requirements.
 
-This extension doesn't group your users or affect the admin interface at all, apart from adding some machinery for looking after groups. As always, readers have their own self-management interface that looks like the rest of your site. They never see the admin pages.
+This extension doesn't group your users or affect the admin interface at all, apart from adding (quite a lot of) machinery for looking after groups. As always, readers have their own self-management interface that looks like the rest of your site. They never see the admin pages.
 
 This works with multi_site. If you use [our fork](https://github.com/spanner/radiant-paperclipped_multisite-extension/tree) then readers and groups are automatically site-scoped.
 
 ## Latest
 
-* group-mailer moved into Reader as reader-mailer, now using radiant layouts for styled group mailouts
+* groups can be marked subscribable, which puts a checkbox to subscribe or unsubscribe on the readers' registration and preference forms. Migration required.
+* messages can each have a different layout
+* group-mailer moved into Reader as general purpose reader-mailer, now using radiant layouts for styled group mailouts
 * group access control consolidated in `is_grouped` function to simplify maintenance of other extensions
 * invitations factored out, made reasonably restful
 
