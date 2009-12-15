@@ -31,7 +31,7 @@
   %h2
     messages
   %p
-    = link_to "Send a message", new_admin_group_message_url(@group)
+    = link_to "Send a new message", new_admin_group_message_url(@group)
   %ul
     - @group.messages.each do |message|
       %li
