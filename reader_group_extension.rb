@@ -59,8 +59,10 @@ class ReaderGroupExtension < Radiant::Extension
       # admin.messages.index.add :thead, "admin/messages/group_header", :after => "subject_header"
       # admin.messages.index.add :tbody, "admin/messages/group_cell", :after => "subject_cell"
     end
-
-    admin.tabs['Readers'].add_link('groups', '/admin/readers/groups')              # add_link is defined by the submenu extension
+    
+    tab("Readers") do
+      add_item 'groups', '/admin/readers/groups'
+    end
   end
   
   def deactivate
