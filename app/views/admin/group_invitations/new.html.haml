@@ -1,9 +1,8 @@
 - include_stylesheet('admin/group')
 
 %h1 
-  Populate:
-  = link_to @group.name, admin_group_url(@group)
-  = render :partial => 'admin/groups/actions', :locals => {:group => @group}
+  Invite people into
+  = @group.name
 
 %p 
   This is a quick way to bring a group of people into the system in one go. 
@@ -14,17 +13,10 @@
 - if message = @group.messages.for_function('invitation').first
   %p
     %strong
-      This group has its own 
+      You may want to check the group's
       = link_to "invitation message", admin_message_url(message)
-      that you might want to check before going any further.
-- else
-  - message = Message.functional('invitation')
-  - if message
-    %p
-      This group doesn't have its own invitation message, so any new people will receive the 
-      = link_to("standard invitation", admin_message_url(message)) + '.'
+      before going any further.
 
-- if message
   - form_for :group, @group, :url => admin_group_group_invitations_url(@group), :html => {:id => 'preview_form', :method => 'post'} do
     .form-area
       %p
@@ -47,8 +39,7 @@
  
 - else
   %p.haserror
-    %strong
-      No invitation message could be found.
-    You can't proceed unless you 
-    = link_to("create one", new_admin_message_url(:function => 'invitation')) + '.'
+    Before you can proceed, you will need to
+    = link_to("create an invitation message", new_admin_group_message_url(@group, :function => 'invitation')) + '.'
+    for this group.
     

@@ -1,42 +1,41 @@
 - include_stylesheet 'admin/group'
+- body_classes << "reversed"
 
 %h1
   Group:
   = @group.name
-  = render :partial => 'actions', :locals => {:group => @group}
 
 = textilize(@group.description)
 
-#group_pages
+
+#group_pages.box.narrow
   %h2
-    pages
-  %p
-    Selected pages are only visible to this group.
+    Private pages
   %ul
     - page = Page.respond_to?(:homepage) ? Page.homepage : Page.find_by_parent_id(nil)
     %div{:id => "page_holder_#{page.id}"}
       = render :partial => 'admin/permissions/page', :object => page
 
-#group_people
+#group_people.box.narrow
   %h2
-    members
-  %p
-    = link_to "Invite group members", new_admin_group_group_invitation_url(@group)
-  %ul
-    - Reader.find(:all).each do |reader|
-      %div{:id => "reader_holder_#{reader.id}"}
-        = render :partial => 'admin/memberships/reader', :object => reader
-
-#group_messages
-  %h2
-    messages
-  %p
-    = link_to "Send a new message", new_admin_group_message_url(@group)
-  %ul
-    - @group.messages.each do |message|
-      %li
-        = link_to message.subject, admin_message_url(message), :class => message.delivered? ? "sent" : "unsent"
+    Group members
+  - readers = Reader.find(:all)
+  - total = readers.count
+  - column_length = (readers.count-1) / 2
+  - columns = [readers[0..column_length], readers[column_length+1..readers.count]]
+  - columns.each do |column|
+    %ul.column
+      - column.each do |reader|
+        %div{:id => "reader_holder_#{reader.id}"}
+          = render :partial => 'admin/memberships/reader', :object => reader
 
 #footnotes
   %p
-    The pages selected on the left are only visible to the people selected on the right (unless some other group membership lets them in).
+    The pages selected on the left are only visible to the people selected on the right.
+
+:javascript
+  var h1 = $('group_pages').getHeight();
+  var h2 = $('group_people').getHeight();
+  var h = (h1 > h2) ? h1 : h2
+  $('group_people').setStyle({'height': h + 'px'});
+  $('group_pages').setStyle({'height': h + 'px'});

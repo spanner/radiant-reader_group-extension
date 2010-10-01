@@ -1,11 +1,7 @@
-%tr
-  %th.label
-    %label{:for=>"user_groups"} Groups
-  %td.field
-    - Group.find(:all).each do |group|
-      %span.checkbox
-        = check_box_tag "reader[group_ids][]", group.id, @reader.is_in?(group), :id => "reader_group_#{group.id}"
-        %label{:for => "reader_group_#{group.id}"}
-          = group.name
-  %td.help
-    Groups give access to restricted pages on the public site.
+%p
+  %label{:for=>"reader_groups"} Groups
+  - Group.find(:all).each do |group|
+    %span.checkbox
+      = check_box_tag "reader[group_ids][]", group.id, @reader.is_in?(group), :id => "reader_group_#{group.id}"
+      %label{:for => "reader_group_#{group.id}"}
+        = group.name

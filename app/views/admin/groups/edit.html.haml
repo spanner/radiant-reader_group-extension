@@ -2,9 +2,7 @@
 - render_region :main do |main|
   - main.edit_header do
     %h1 
-      Edit:
-      = link_to @group.name, admin_group_url(@group)
-      = render :partial => 'actions', :locals => {:group => @group}
+      Edit group
       
   - main.edit_form do
     = render :partial => 'form'

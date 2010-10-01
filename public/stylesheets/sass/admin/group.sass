@@ -1,0 +1,66 @@
+@import compass
+
+body.reversed 
+  #content 
+    form 
+      p.homepage
+        margin: 0
+        label
+          display: inline
+
+  #group_pages, #group_people
+    position: relative
+    float: left
+    overflow: hidden
+    ul
+      li.fake_checkbox
+        margin: 10px 0
+        padding-left: 30px
+        background:
+          image: none
+          repeat: no-repeat
+          position: 4px center
+        a
+          text-decoration: none
+        &.checked                                          
+          background-image: url(/images/admin/chk_on.png) 
+          a
+            color: #5da454
+            font-weight: bold
+        &.unchecked                                        
+          background-image: url(/images/admin/chk_off.png)
+          a
+            color: #999
+            font-weight: normal
+        &.waiting                                          
+          background-image: url(/images/admin/spinner.gif)
+          a
+            color: #8c8d8e
+        &.failed                                           
+          background-image: url(/images/admin/error.png)
+          a
+            color: #c00
+        &.inherited                                        
+          background-image: url(/images/admin/chk_auto.png)
+          color: #80aa79
+      input
+        position: absolute
+        left: -999px
+
+  #group_pages
+    width: 30%
+    float: left
+    margin-right: 2%
+    ul
+      ul
+        padding-left: 20px
+  
+  #group_people
+    float: right
+    width: 62%
+    ul
+      float: left
+      width: 49%
+  
+  #footnotes
+    clear: both

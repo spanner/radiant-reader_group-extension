@@ -1,0 +1,33 @@
+- Group.all.each do |group|
+  - invite = Message.functional(:invitation, group)
+  %tr
+    %td.message_purpose
+      = group.name
+      invitation
+    %td.message_subject
+      - if invite
+        = link_to invite.subject, edit_admin_message_url(invite)
+      - else
+        = link_to image('plus') + " create message", new_admin_group_message_url(group, :function => 'invitation'), :class => 'create'
+    %td.message_body
+      - if invite
+        = h(truncate(invite.body, 80))
+
+  - welcome = Message.functional(:welcome, group)
+  %tr
+    %td.message_purpose
+      = group.name
+      welcome
+    %td.message_subject
+      - if welcome
+        = link_to welcome.subject, edit_admin_message_url(welcome)
+      - else
+        = link_to image('plus') + " create message", new_admin_group_message_url(group, :function => 'welcome'), :class => 'create'
+    %td.message_body
+      - if welcome
+        = h(truncate(welcome.body, 80))
+
+
+
+
+

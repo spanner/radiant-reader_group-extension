@@ -26,8 +26,8 @@ module GroupedMessage
   
   module ClassMethods
     def functional_with_group(function, group=nil)
-      messages = published.for_function(function)
-      if group && messages.for_group(group).any?
+      messages = for_function(function)
+      if group
         messages.for_group(group).first
       else
         messages.ungrouped.first
