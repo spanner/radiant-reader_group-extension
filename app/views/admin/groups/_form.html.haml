@@ -25,7 +25,7 @@
       - form.edit_membership do
         - unless @group.new_record?
           #group_people.box.narrow
-            %h2
+            %h3
               Group members
             - readers = Reader.find(:all)
             - total = readers.count
@@ -40,7 +40,7 @@
       - form.edit_pages do
         - unless @group.new_record?
           #group_pages.box.narrow
-            %h2
+            %h3
               Private pages
             %ul
               - page = Page.respond_to?(:homepage) ? Page.homepage : Page.find_by_parent_id(nil)
