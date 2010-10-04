@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["spanner"]
-  s.date = %q{2010-09-15}
+  s.date = %q{2010-10-04}
   s.description = %q{Adds group-based page access control to radiant.}
   s.email = %q{will@spanner.org}
   s.extra_rdoc_files = [
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
     ".gitignore",
      "README.markdown",
      "Rakefile",
+     "VERSION",
      "app/controllers/admin/group_invitations_controller.rb",
      "app/controllers/admin/groups_controller.rb",
      "app/controllers/admin/memberships_controller.rb",
@@ -29,7 +30,6 @@ Gem::Specification.new do |s|
      "app/models/permission.rb",
      "app/views/admin/group_invitations/new.html.haml",
      "app/views/admin/group_invitations/preview.html.haml",
-     "app/views/admin/groups/_actions.html.haml",
      "app/views/admin/groups/_add_readers.html.haml",
      "app/views/admin/groups/_form.html.haml",
      "app/views/admin/groups/_list_head.html.haml",
@@ -40,18 +40,19 @@ Gem::Specification.new do |s|
      "app/views/admin/groups/remove.html.haml",
      "app/views/admin/groups/show.html.haml",
      "app/views/admin/memberships/_reader.html.haml",
-     "app/views/admin/messages/_delivery_group.html.haml",
-     "app/views/admin/messages/_edit_group.html.haml",
-     "app/views/admin/messages/_function_description.html.haml",
      "app/views/admin/messages/_list_notes.html.haml",
+     "app/views/admin/messages/_message_description.html.haml",
+     "app/views/admin/messages/_message_group.html.haml",
      "app/views/admin/pages/_listed.html.haml",
      "app/views/admin/pages/_page_groups.html.haml",
      "app/views/admin/permissions/_page.html.haml",
+     "app/views/admin/reader_settings/_group_welcomes.html.haml",
      "app/views/admin/readers/_reader_groups.html.haml",
      "app/views/messages/show.html.haml",
      "app/views/reader_activations/_on_activation.html.haml",
      "app/views/readers/_memberships.html.haml",
      "app/views/site/not_allowed.html.haml",
+     "config/routes.rb",
      "db/migrate/001_create_groups.rb",
      "db/migrate/20090921125654_group_messages.rb",
      "db/migrate/20091120083119_groups_public.rb",
@@ -62,13 +63,13 @@ Gem::Specification.new do |s|
      "lib/grouped_model.rb",
      "lib/grouped_page.rb",
      "lib/grouped_reader.rb",
-     "lib/messages_controller_extensions.rb",
      "lib/reader_activations_controller_extensions.rb",
      "lib/reader_notifier_extensions.rb",
      "lib/reader_sessions_controller_extensions.rb",
      "lib/readers_controller_extensions.rb",
      "lib/site_controller_extensions.rb",
      "lib/tasks/reader_group_extension_tasks.rake",
+     "pkg/radiant-reader_group-extension-0.9.0.gem",
      "public/images/admin/chk_auto.png",
      "public/images/admin/chk_off.png",
      "public/images/admin/chk_on.png",
@@ -79,7 +80,8 @@ Gem::Specification.new do |s|
      "public/images/admin/populate.png",
      "public/images/admin/rdo_off.png",
      "public/images/admin/rdo_on.png",
-     "public/stylesheets/admin/group.css",
+     "public/stylesheets/sass/admin/group.sass",
+     "radiant-reader_group-extension.gemspec",
      "reader_group_extension.rb",
      "spec/controllers/readers_controller_spec.rb",
      "spec/controllers/site_controller_spec.rb",
