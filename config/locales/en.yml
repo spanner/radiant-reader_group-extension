@@ -10,3 +10,8 @@ en:
   group_members: "Group members"
   private_pages: "Private pages"
   group_messages: "Group messages"
+  create_new_message: "Send a new message"
+  delete_message: "delete message"
+  create_welcome: "create welcome"
+  create_invitation: "create invitation"
+  sent_on_date: "last sent on %{date}"

@@ -18,9 +18,18 @@
           %label 
             = t("#{func}_message")
           - if message
-            = link_to message.subject, edit_admin_message_url(message)
+            %strong
+              = link_to message.subject, edit_admin_message_url(message)
           - else
-            = link_to image('plus') + ' ' + t("create_message"), new_admin_group_message_url(@group, :function => func), :class => 'create'
+            = link_to image('plus') + ' ' + t("create_#{func}"), new_admin_group_message_url(@group, :function => func), :class => 'action create'
+      - @group.messages.ordinary.each do |message|
+        %p.ruled
+          %label
+          = link_to message.subject, edit_admin_message_url(message)
+          %span.sent
+            = t('sent_on_date', :date => message.updated_at)
+      %p.ruled
+        = link_to image('plus') + ' ' + t("create_new_message"), new_admin_group_message_url(@group), :class => 'action create'
         
   - main.pages do
     #group_pages.box
