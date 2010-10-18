@@ -12,9 +12,6 @@ This works with multi_site. If you use [our fork](https://github.com/spanner/rad
 
 * groups can be marked subscribable, which puts a checkbox to subscribe or unsubscribe on the readers' registration and preference forms. Migration required.
 * messages can each have a different layout
-* group-mailer moved into Reader as general purpose reader-mailer, now using radiant layouts for styled group mailouts
-* group access control consolidated in `is_grouped` function to simplify maintenance of other extensions
-* invitations factored out, made reasonably restful
 
 ## Status
 
@@ -22,7 +19,7 @@ This has been brought across from a previous version that grouped users instead 
 
 ## Requirements
 
-The [reader](https://github.com/spanner/radiant-reader-extension/tree) and [submenu](https://github.com/spanner/radiant-submenu-extension/tree) extensions.
+Radiant 0.9.x and the [reader](https://github.com/spanner/radiant-reader-extension/tree) extension.
 
 ## Installation
 
@@ -34,7 +31,7 @@ Once you've got the reader extension in, the rest is easy:
 
 ## Bugs and comments
 
-In [lighthouse](http://spanner.lighthouseapp.com/projects/26912-radiant-extensions), please, or for little things an email or github message is always welcome.
+On github, please.
 
 ## Author and copyright
 

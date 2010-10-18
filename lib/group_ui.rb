@@ -19,7 +19,12 @@ module GroupUI
           returning OpenStruct.new do |group|
             group.edit = Radiant::AdminUI::RegionSet.new do |edit|
               edit.main.concat %w{edit_header edit_form}
-              edit.form.concat %w{edit_group edit_timestamp edit_buttons edit_membership edit_pages}
+              edit.form.concat %w{edit_group edit_timestamp edit_buttons}
+            end
+            group.show = Radiant::AdminUI::RegionSet.new do |show|
+              show.header.concat %w{title}
+              show.main.concat %w{messages pages members}
+              show.footer.concat %w{notes javascript}
             end
             group.index = Radiant::AdminUI::RegionSet.new do |index|
               index.thead.concat %w{name_header home_header members_header pages_header modify_header}
@@ -34,4 +39,3 @@ module GroupUI
     end
   end
 end
-

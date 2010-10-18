@@ -38,7 +38,7 @@ class ReaderGroupExtension < Radiant::Extension
       admin.page.edit.add :parts_bottom, "page_groups", :before => "edit_timestamp"
       admin.reader.edit.add :form, "reader_groups", :before => "edit_password"
       admin.message.edit.add :form, "message_group", :before => "edit_subject"
-      admin.reader_setting.index.add :messages, "group_welcomes", :after => "administration"
+      admin.reader_configuration.show.add :messages, "group_welcomes", :after => "administration"
     end
     
     tab("Readers") do

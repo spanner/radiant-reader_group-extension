@@ -1,4 +1,4 @@
-- include_stylesheet('admin/group')
+- include_stylesheet('admin/reader_group')
 
 = render_region :top
 
@@ -16,4 +16,4 @@
       = pagination_for @readers
       %ul
         %li
-          = link_to image('plus') + " " + "new group", new_admin_group_url
+          = link_to image('plus') + " " + t("new_group"), new_admin_group_url

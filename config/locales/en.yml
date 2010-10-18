@@ -1,0 +1,12 @@
+en:
+  subscriptions: "subscriptions"
+  inherited_group: "group is attached higher in the page tree: can't be detached here"
+  public_if_no_groups: "Leave all groups unchecked for public access"
+  allowed_groups: "Allow access only to"
+  page_private: "Sorry: you don't have permission to view that page."
+  confirm_remove_group: "are you sure you want to completely remove the %{name} group?"
+  none: "none"
+  new_group: "new group"
+  group_members: "Group members"
+  private_pages: "Private pages"
+  group_messages: "Group messages"
