@@ -4,7 +4,9 @@ module GroupedPage
     base.class_eval {
       has_many :permissions
       has_many :groups, :through => :permissions
+      accepts_nested_attributes_for :permissions
       has_one :group, :foreign_key => 'homepage_id'
+      
       include InstanceMethods
       
       # any page with a group-marker is never cached

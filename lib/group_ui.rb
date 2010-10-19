@@ -6,11 +6,14 @@ module GroupUI
       attr_accessor :group
       alias_method :groups, :group
 
-      def load_default_regions_with_group
-        load_default_regions_without_group
+      def load_reader_group_extension_regions
         @group = load_default_group_regions
       end
 
+      def load_default_regions_with_group
+        load_default_regions_without_group
+        load_reader_group_extension_regions
+      end
       alias_method_chain :load_default_regions, :group
 
       protected

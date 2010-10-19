@@ -5,10 +5,11 @@ module AdminMessagesControllerExtensions
     }
   end
 
+protected
+
   def get_group
     model.group = Group.find(params[:group_id]) if params[:group_id]
   end
-
 end
 
 

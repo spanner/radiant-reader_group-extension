@@ -23,7 +23,6 @@ module GroupedModel
           return true if reader.is_in?(group)
           return false
         end
-
       }
       
       belongs_to :group

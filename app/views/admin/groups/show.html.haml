@@ -4,14 +4,14 @@
 - render_region :header do |header|
   - header.title do
     %h1
-      Group:
+      = t('group').titlecase + ":"
       = @group.name
 
 - render_region :main do |main|
   - main.messages do
     #group_messages.box
       %h3
-        =t('group_messages').titlecase
+        =t('admin_messages').titlecase
       - ['welcome', 'invitation'].each do |func|
         - message = Message.functional(func, @group)
         %p.ruled
@@ -19,15 +19,18 @@
             = t("#{func}_message")
           - if message
             %strong
-              = link_to message.subject, edit_admin_message_url(message)
+              = link_to message.subject, admin_message_url(message)
           - else
             = link_to image('plus') + ' ' + t("create_#{func}"), new_admin_group_message_url(@group, :function => func), :class => 'action create'
+      %h4
+        =t('other_messages').titlecase
       - @group.messages.ordinary.each do |message|
         %p.ruled
-          %label
-          = link_to message.subject, edit_admin_message_url(message)
+          = link_to message.subject, admin_message_url(message)
           %span.sent
-            = t('sent_on_date', :date => message.updated_at)
+            - if message.sent_at
+              = t('last_sent')
+              = l(message.sent_at, :format => :short)
       %p.ruled
         = link_to image('plus') + ' ' + t("create_new_message"), new_admin_group_message_url(@group), :class => 'action create'
         
@@ -58,7 +61,7 @@
   - footer.notes do
     #footnotes
       %p
-        The pages selected on the left are only visible to the people selected on the right.
+        = t('private_page_explanation')
 
   - footer.javascript do
     :javascript

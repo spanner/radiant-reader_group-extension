@@ -10,7 +10,7 @@ module ReaderGroup
 end
 
 class ReaderGroupExtension < Radiant::Extension
-  version "0.9.0"
+  version "1.0.0"
   description "Page (and other) access control for site readers and groups"
   url "http://spanner.org/radiant/reader_group"
 
@@ -25,21 +25,21 @@ class ReaderGroupExtension < Radiant::Extension
     ReaderNotifier.send :include, ReaderNotifierExtensions                            # a couple of new message types
     SiteController.send :include, SiteControllerExtensions                            # access control based on group membership
     ReadersController.send :include, ReadersControllerExtensions                      # offer subscription to public groups
-    Admin::MessagesController.send :include, AdminMessagesControllerExtensions        # supports specification of group on newing of message
+    Admin::MessagesController.send :include, AdminMessagesControllerExtensions        # preview and delivery
     ReaderSessionsController.send :include, ReaderSessionsControllerExtensions        # sends newly logged-in readers to a group home page if one can be found
     ReaderActivationsController.send :include, ReaderActivationsControllerExtensions  # sends newly activated readers to a group home page if one can be found
     UserActionObserver.instance.send :add_observer!, Group                            # the usual date-stamping and ownership
     Page.send :include, GroupMessageTags                                              # extra tags for talking about groups in mailouts
 
-
     unless defined? admin.group                                                       # to avoid duplicate partials
       Radiant::AdminUI.send :include, GroupUI
-      admin.group = Radiant::AdminUI.load_default_group_regions
-      admin.page.edit.add :parts_bottom, "page_groups", :before => "edit_timestamp"
-      admin.reader.edit.add :form, "reader_groups", :before => "edit_password"
-      admin.message.edit.add :form, "message_group", :before => "edit_subject"
+      Radiant::AdminUI.load_reader_group_extension_regions
     end
-    
+
+    admin.page.edit.add :parts_bottom, "page_groups"
+    admin.reader.edit.add :form_additions, "reader_groups"
+    admin.message.edit.add :body_bottom, "message_group"
+
     tab("Readers") do
       add_item 'Groups', '/admin/readers/groups', :before => 'Settings'
     end

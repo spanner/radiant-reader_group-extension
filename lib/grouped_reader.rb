@@ -4,6 +4,8 @@ module GroupedReader
     base.class_eval {
       has_many :memberships
       has_many :groups, :through => :memberships
+      accepts_nested_attributes_for :memberships
+
       include InstanceMethods
       alias_method_chain :activate!, :group
       alias_method_chain :send_functional_message, :group
