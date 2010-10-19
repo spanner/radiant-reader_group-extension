@@ -37,7 +37,7 @@ class ReaderGroupExtension < Radiant::Extension
     end
 
     admin.page.edit.add :parts_bottom, "page_groups"
-    admin.reader.edit.add :form_additions, "reader_groups"
+    admin.reader.edit.add :form, "reader_groups", :before => :edit_description
     admin.message.edit.add :body_bottom, "message_group"
 
     tab("Readers") do
