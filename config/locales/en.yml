@@ -40,3 +40,4 @@ en:
   email: "email"
   optional_phone: "[phone]"
   optional_login: "[login]"
+  page_not_public: "The page you have requested is not public. Please log in. If your account has the necessary permission you will be taken straight there."

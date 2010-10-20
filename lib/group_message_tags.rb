@@ -63,20 +63,4 @@ module GroupMessageTags
     result
   end
 
-  # overridden to add group scope:
-  
-  desc %{
-    Returns the url of the show-message page
-    
-    <pre><code><r:message:url /></code></pre>
-  }
-  tag "message:url" do |tag|
-    if tag.locals.group
-      group_message_path(tag.locals.group, tag.locals.message)
-    else
-      message_path(tag.locals.message)
-    end
-  end
-  
-
 end

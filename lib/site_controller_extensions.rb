@@ -17,11 +17,11 @@ module SiteControllerExtensions
         show_page_without_group_check
       rescue ReaderGroup::PermissionDenied
         if current_reader
-          flash[:error] = "Sorry: you don't have permission to see that page."
+          flash[:error] = "sorry_access_denied"
           redirect_to reader_permission_denied_url
         else
-          flash[:explanation] = "The page you have requested is not public. Please log in, and if your account has the necessary permission you will be taken straight there."
-          flash[:error] = "Please log in."
+          flash[:explanation] = "page_not_public"
+          flash[:error] = "please_log_in"
           store_location
           redirect_to reader_login_url
         end

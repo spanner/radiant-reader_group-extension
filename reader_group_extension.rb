@@ -10,7 +10,7 @@ module ReaderGroup
 end
 
 class ReaderGroupExtension < Radiant::Extension
-  version "1.0.0"
+  version "1.0.1"
   description "Page (and other) access control for site readers and groups"
   url "http://spanner.org/radiant/reader_group"
 
