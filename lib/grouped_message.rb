@@ -2,7 +2,7 @@ module GroupedMessage
 
   def self.included(base)
     base.class_eval {
-      is_grouped
+      has_group
 
       include InstanceMethods
       alias_method_chain :possible_readers, :group

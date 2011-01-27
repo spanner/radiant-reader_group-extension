@@ -10,6 +10,8 @@
 - render_region :main do |main|
   - main.messages do
     #group_messages.box
+      .actions
+        = link_to image('plus') + ' ' + t("create_new_message"), new_admin_group_message_url(@group), :class => 'action create'
       %h3
         =t('admin_messages').titlecase
       - ['welcome', 'invitation'].each do |func|
@@ -31,8 +33,6 @@
             - if message.sent_at
               = t('last_sent')
               = l(message.sent_at, :format => :short)
-      %p.ruled
-        = link_to image('plus') + ' ' + t("create_new_message"), new_admin_group_message_url(@group), :class => 'action create'
         
   - main.pages do
     #group_pages.box
@@ -45,6 +45,8 @@
 
   - main.members do
     #group_people.box
+      .actions
+        = link_to image('plus') + ' ' + t('add_members'), new_admin_group_group_invitation_url(@group), :class => 'action'
       %h3
         =t('group_members').titlecase
       - readers = Reader.find(:all)

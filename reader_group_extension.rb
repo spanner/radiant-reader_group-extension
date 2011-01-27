@@ -10,13 +10,13 @@ module ReaderGroup
 end
 
 class ReaderGroupExtension < Radiant::Extension
-  version "1.0.1"
+  version "1.1.0"
   description "Page (and other) access control for site readers and groups"
   url "http://spanner.org/radiant/reader_group"
 
   def activate
     Group
-    ActiveRecord::Base.send :include, GroupedModel                                    # is_grouped mechanism for any model that can belong_to a group
+    ActiveRecord::Base.send :include, GroupedModel                                    # has_group mechanism for any model that can belong_to a group
     
     Reader.send :include, GroupedReader                                               # defines group associations
     Page.send :include, GroupedPage                                                   # group associations and visibility decisions

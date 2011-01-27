@@ -2,7 +2,7 @@ module ReadersControllerExtensions
   
   def self.included(base)
     base.class_eval { before_filter :ensure_groups_subscribable, :only => [:update, :create] }
-    base.add_form_partial 'readers/memberships'
+    base.add_edit_partial 'readers/memberships'
   end
 
   def ensure_groups_subscribable

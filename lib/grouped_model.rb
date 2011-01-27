@@ -4,25 +4,32 @@ module GroupedModel
   end
 
   module ClassMethods
-    def is_grouped?
+    def has_group?
       false
     end
     
-    def is_grouped(options={})
-      return if is_grouped?
+    def has_group(options={})
+      return if has_group?
       cattr_accessor :group_recipients, :group_donor
       
       class_eval {
         extend GroupedModel::GroupedClassMethods
         include GroupedModel::GroupedInstanceMethods
 
-        def visible_to?(reader)
-          return true unless group
+        unless instance_methods.include? 'visible_to?'
+          def visible_to?(reader)
+            return true
+          end
+        end
+
+        def visible_to_with_groups?(reader)
+          value_otherwise = visible_to_without_groups?(reader)
+          return value_otherwise unless group
           return false unless reader
-          return true if reader.is_user?
-          return true if reader.is_in?(group)
+          return value_otherwise if reader.is_in?(group)
           return false
         end
+        alias_method_chain :visible_to?, :groups
       }
       
       belongs_to :group
@@ -38,27 +45,29 @@ module GroupedModel
       before_create :get_group
       after_save :give_group
     end
+    alias :is_grouped :has_group
+    alias :is_grouped? :has_group?
   end
 
   module GroupedClassMethods
-    def visible
-      ungrouped
+    def has_group?
+      true
     end
     
-    def is_grouped?
-      true
+    def visible
+      ungrouped
     end
     
     def gets_group_from(association_name)
       association = reflect_on_association(association_name)
       raise StandardError "can't find group source '#{association_name}" unless association
-      raise StandardError "#{association.klass} is not grouped and cannot be a group donor" unless association.klass.is_grouped? 
+      raise StandardError "#{association.klass} is not grouped and cannot be a group donor" unless association.klass.has_group? 
       self.group_donor = association_name
     end
     
     def gives_group_to(associations)
       associations = [associations] unless associations.is_a?(Array)
-      # shall we force is_grouped here?
+      # shall we force has_group here?
       # shall we assume that gets_group_from follows? and find the association somehow?
       self.group_recipients ||= []
       self.group_recipients += associations
