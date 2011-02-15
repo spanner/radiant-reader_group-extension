@@ -26,7 +26,6 @@ module GroupedModel
       
       has_many :permissions, :as => :permitted
       has_many :groups, :through => :permissions
-      accepts_nested_attributes_for :permissions
       Group.define_retrieval_methods(self.to_s)
 
       named_scope :ungrouped, {
@@ -103,15 +102,16 @@ module GroupedModel
       permitted_groups.any? ? Reader.in_groups(permitted_groups) : Reader.all
     end
     
-    # GroupedPage also defines a separate has_inherited_group? method
-    # so here we don't call permitted_groups
     def has_group?(group)
-      return self.groups.include?(group)
+      return self.permitted_groups.include?(group)
     end
     
     def permit(group)
       self.groups << group unless self.has_group?(group)
     end
 
+    def group_ids=(ids)
+      self.groups = Group.from_list(ids)
+    end
   end
 end

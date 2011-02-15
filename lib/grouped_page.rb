@@ -11,26 +11,15 @@ module GroupedPage
   
   module InstanceMethods
     
-    # this is all very inefficient recursive stuff
-    # but the ancestor pages should be in memory already
-    # and the groups check is now a single query
-
+    attr_reader :inherited_groups
     def inherited_groups
-      lineage = self.ancestors
-      if lineage.any?
-        Group.attached_to(lineage)
-      else
-        []
-      end
+      @inherited_groups ||= self.parent ? Group.attached_to(self.ancestors) : []
     end
 
     def permitted_groups_with_inheritance
       permitted_groups_without_inheritance + inherited_groups
     end
 
-    # any page with a group-marker is never cached
-    # so that we can return cache hits with confidence
-    # this call is regrettably expensive
     def cache?
       self.permitted_groups.empty?
     end        

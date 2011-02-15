@@ -20,6 +20,10 @@ class Group < ActiveRecord::Base
   named_scope :subscribable, { :conditions => "public = 1" }
   named_scope :unsubscribable, { :conditions => "public = 0" }
 
+  named_scope :from_list, lambda { |ids|
+    { :conditions => ["groups.id IN (#{ids.map{"?"}.join(',')})", *ids] }
+  }
+
   named_scope :attached_to, lambda { |objects|
     conditions = objects.map{|o| "(pp.permitted_type = ? AND pp.permitted_id = ?)" }.join(" OR ")
     binds = objects.map{|o| [o.class.to_s, o.id]}.flatten

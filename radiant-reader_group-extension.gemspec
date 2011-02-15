@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{radiant-reader_group-extension}
-  s.version = "1.1.2"
+  s.version = "1.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["spanner"]
-  s.date = %q{2011-02-11}
+  s.date = %q{2011-02-15}
   s.description = %q{Adds group-based page access control to radiant.}
   s.email = %q{will@spanner.org}
   s.extra_rdoc_files = [
@@ -55,6 +55,7 @@ Gem::Specification.new do |s|
      "db/migrate/001_create_groups.rb",
      "db/migrate/20090921125654_group_messages.rb",
      "db/migrate/20091120083119_groups_public.rb",
+     "db/migrate/20110214101339_multiple_ownership.rb",
      "lib/admin_messages_controller_extensions.rb",
      "lib/group_message_tags.rb",
      "lib/group_ui.rb",
