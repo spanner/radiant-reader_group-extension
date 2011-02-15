@@ -36,13 +36,19 @@ class GroupsDataset < Dataset::Base
   end
   
   def add_pages_to_group(g, pp)
-    g = g.is_a?(Group) ? g : groups(g)
-    g.pages << pp.map{|p| pages(p)}
+    g = groups(g) unless g.is_a? Group
+    pp.each {|p| 
+      p = pages(p) unless p.is_a? Page
+      p.permit(g)
+    }
   end
   
   def add_readers_to_group(g, rr)
-    g = g.is_a?(Group) ? g : groups(g)
-    g.readers <<  rr.map{|r| readers(r)}
+    g = groups(g) unless g.is_a? Group
+    rr.each {|r| 
+      r = readers(r) unless r.is_a? Reader
+      g.admit(r)
+    }
   end
   
 end

@@ -9,6 +9,15 @@ module GroupedReader
       include InstanceMethods
       alias_method_chain :activate!, :group
       alias_method_chain :send_functional_message, :group
+      
+      named_scope :in_groups, lambda { |groups| 
+        {
+          :select => "readers.*",
+          :joins => "INNER JOIN memberships as mm on mm.reader_id = readers.id", 
+          :conditions => ["mm.group_id IN (#{groups.map{'?'}.join(',')})", *groups.map{|g| g.is_a?(Group) ? g.id : g}],
+          :group => "mm.reader_id"
+        }
+      }
     }
   end
 

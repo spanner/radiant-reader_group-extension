@@ -2,10 +2,8 @@ module SiteControllerExtensions
   
   def self.included(base)
     base.class_eval {
-      # to control access without ruining the cache we have set Page.cache? = false
-      # for any page that has a group association. This should  prevent the relatively 
-      # few private pages from being cached, and it remains safe to return any cached
-      # page we find.
+      # NB. to control access without disabling the cache we have overridden Page.cache? 
+      # to return false for any page that has a group association. 
       
       def find_page_with_group_check(url)
         page = find_page_without_group_check(url)
@@ -17,11 +15,11 @@ module SiteControllerExtensions
         show_page_without_group_check
       rescue ReaderGroup::PermissionDenied
         if current_reader
-          flash[:error] = "sorry_access_denied"
+          flash[:error] = t("access_denied")
           redirect_to reader_permission_denied_url
         else
-          flash[:explanation] = "page_not_public"
-          flash[:error] = "please_log_in"
+          flash[:explanation] = t("page_not_public")
+          flash[:error] = t("please_log_in")
           store_location
           redirect_to reader_login_url
         end

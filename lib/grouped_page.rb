@@ -2,49 +2,38 @@ module GroupedPage
 
   def self.included(base)
     base.class_eval {
-      has_many :permissions
-      has_many :groups, :through => :permissions
-      accepts_nested_attributes_for :permissions
-      has_one :group, :foreign_key => 'homepage_id'
-      
+      has_groups
+      has_one :homegroup, :foreign_key => 'homepage_id', :class_name => 'Group'
       include InstanceMethods
-      
-      # any page with a group-marker is never cached
-      # so that we can continue to return cache hits without care
-      # this check is regrettably expensive
-
-      def cache?
-        self.inherited_groups.empty?
-      end        
+      alias_method_chain :permitted_groups, :inheritance
     }
   end
   
   module InstanceMethods
     
-    def visible_to?(reader)
-      permitted_groups = self.inherited_groups  
-      return true if permitted_groups.empty?
-      return false if reader.nil?
-      return true if reader.is_admin?
-      return reader.in_any_of_these_groups?(permitted_groups)
-    end
-
     # this is all very inefficient recursive stuff
-    # but to do it in one pass we'd have to build a list of pages anyway
-    # so there isn't much to gain unless we shift to a different kind of tree
+    # but the ancestor pages should be in memory already
+    # and the groups check is now a single query
 
     def inherited_groups
-      if (self.parent.nil?)
-        self.groups
+      lineage = self.ancestors
+      if lineage.any?
+        Group.attached_to(lineage)
       else
-        self.groups + self.parent.inherited_groups
+        []
       end
     end
-    alias permitted_groups inherited_groups
 
-    def has_group?(group)
-      return self.groups.include?(group)
+    def permitted_groups_with_inheritance
+      permitted_groups_without_inheritance + inherited_groups
     end
+
+    # any page with a group-marker is never cached
+    # so that we can return cache hits with confidence
+    # this call is regrettably expensive
+    def cache?
+      self.permitted_groups.empty?
+    end        
 
     def has_inherited_group?(group)
       return self.inherited_groups.include?(group)

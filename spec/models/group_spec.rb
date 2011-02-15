@@ -32,12 +32,14 @@ describe Group do
 
   it "should have a group of readers" do
     group = groups(:normal)
+    group.respond_to?(:readers).should be_true
     group.readers.any?.should be_true
     group.readers.size.should == 2
   end
 
   it "should have a group of pages" do
     group = groups(:homed)
+    group.respond_to?(:pages).should be_true
     group.pages.any?.should be_true
     group.pages.size.should == 2
   end

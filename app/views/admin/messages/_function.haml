@@ -1,7 +1,14 @@
 - if @message.administrative?
   %p
     - if @message.group
-      = t("group_#{@message.function}_sent_automatically", :name => @message.group.name)
+      = t("group_#{@message.function}")
+      = t("sent_to_group")
+    - elsif @message.groups.any?
+      = t("group_#{@message.function}")
+      = t("sent_to_these_groups")
+      %ul
+        - @message.groups.each do |group|
+          %li= link_to group.name, admin_group_url(group)
     - else
       = t("#{@message.function}_sent_automatically")
   %ul
@@ -16,4 +23,9 @@
 - if @message.group
   %p
     = t("belongs_to_group", :name => @message.group.name)
-  
+- elsif @message.groups.any?
+  %p
+    = t("belongs_to_these_groups")
+  %ul
+    - @message.groups.each do |group|
+      %li= link_to group.name, admin_group_url(group)
