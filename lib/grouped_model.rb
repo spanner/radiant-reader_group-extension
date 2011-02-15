@@ -34,7 +34,11 @@ module GroupedModel
         :having => "group_count = 0",
         :group => column_names.map { |n| self.table_name + '.' + n }.join(','),    # postgres requires that we group by all selected (but not aggregated) columns
         :readonly => false
-      }
+      } do
+        def count
+          length
+        end
+      end
 
       named_scope :grouped, {
         :select => "#{self.table_name}.*, count(pp.id) as group_count",
@@ -42,7 +46,11 @@ module GroupedModel
         :having => "group_count > 0",
         :group => column_names.map { |n| self.table_name + '.' + n }.join(','),
         :readonly => false
-      }
+      } do
+        def count
+          length
+        end
+      end
       
       named_scope :for_group, lambda { |group| 
         {
