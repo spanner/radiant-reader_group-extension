@@ -45,7 +45,8 @@ module GroupedModel
         {
           :joins => "LEFT OUTER JOIN permissions as pp on pp.permitted_id = #{self.table_name}.id AND pp.permitted_type = '#{self.to_s}'",
           :group => column_names.map { |n| self.table_name + '.' + n }.join(','),
-          :conditions => conditions
+          :conditions => conditions,
+          :readonly => false
         } 
       }
 
