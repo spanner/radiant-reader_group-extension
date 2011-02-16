@@ -8,6 +8,35 @@ describe Page do
     @site = Page.current_site = sites(:test) if defined? Site
   end
   
+  describe "listed" do
+    describe "for nobody in particular" do
+      it "should not include private pages" do
+        Page.visible.include?(pages(:news)).should be_false
+      end
+      it "should include non-private pages" do
+        Page.visible.include?(pages(:first)).should be_true
+      end
+    end
+
+    describe "for a reader without group memberships" do
+      it "should not include private pages" do
+        Page.visible_to(readers(:ungrouped)).include?(pages(:news)).should be_false
+      end
+      it "should include non-private pages" do
+        Page.visible_to(readers(:ungrouped)).include?(pages(:first)).should be_true
+      end
+    end
+
+    describe "for a reader with group memberships" do
+      it "should include private pages" do
+        Page.visible_to(readers(:another)).include?(pages(:news)).should be_true
+      end
+      it "should include non-private pages" do
+        Page.visible_to(readers(:another)).include?(pages(:first)).should be_true
+      end
+    end
+  end
+  
   describe "with groups" do
     before do
       @page = pages(:parent)

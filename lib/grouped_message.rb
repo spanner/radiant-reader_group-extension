@@ -28,7 +28,7 @@ module GroupedMessage
     def functional_with_groups(function, group=nil)
       messages = for_function(function)
       if group
-        messages.for_group(group).first
+        messages.belonging_to(group).first
       else
         messages.ungrouped.first
       end

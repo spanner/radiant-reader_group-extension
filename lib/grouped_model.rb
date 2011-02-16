@@ -13,9 +13,16 @@ module GroupedModel
       return if has_groups?
       
       class_eval {
-        extend GroupedModel::GroupedClassMethods
         include GroupedModel::GroupedInstanceMethods
 
+        def self.has_groups?
+          true
+        end
+        
+        def self.visible
+          visible_to(nil)
+        end
+        
         unless instance_methods.include? 'visible_to?'
           def visible_to?(reader)
             return true
@@ -27,6 +34,20 @@ module GroupedModel
       has_many :permissions, :as => :permitted
       has_many :groups, :through => :permissions
       Group.define_retrieval_methods(self.to_s)
+
+      named_scope :visible_to, lambda { |reader| 
+        if reader.nil? || reader.groups.empty?
+          conditions = "pp.group_id IS NULL"
+        else
+          ids = reader.group_ids
+          conditions = reader.nil? ? "pp.group_id IS NULL" : ["pp.group_id IS NULL OR pp.group_id IN(#{ids.map{"?"}.join(',')})", *ids]
+        end
+        {
+          :joins => "LEFT OUTER JOIN permissions as pp on pp.permitted_id = #{self.table_name}.id AND pp.permitted_type = '#{self.to_s}'",
+          :group => column_names.map { |n| self.table_name + '.' + n }.join(','),
+          :conditions => conditions
+        } 
+      }
 
       named_scope :ungrouped, {
         :select => "#{self.table_name}.*, count(pp.id) as group_count",
@@ -52,31 +73,17 @@ module GroupedModel
         end
       end
       
-      named_scope :for_group, lambda { |group| 
+      named_scope :belonging_to, lambda { |group| 
         {
           :joins => "INNER JOIN permissions as pp on pp.permitted_id = #{self.table_name}.id AND pp.permitted_type = '#{self.to_s}'", 
-          :conditions => ["pp.group_id = ?)", group.id],
           :group => column_names.map { |n| self.table_name + '.' + n }.join(','),
+          :conditions => ["pp.group_id = ?)", group.id],
           :readonly => false
         }
       }
             
-      named_scope :visible_to, lambda { |reader| 
-        groups = reader.nil? ? [] : reader.groups
-        {:conditions => ["group_id IS NULL OR group_id IN(?)", groups.map(&:id).join(',')]} 
-      }
     end
     alias :has_group :has_groups
-  end
-
-  module GroupedClassMethods
-    def has_groups?
-      true
-    end
-    
-    def visible
-      ungrouped
-    end
   end
 
   module GroupedInstanceMethods
